@@ -193,7 +193,6 @@ export function generateSlug(title: string): string {
         .trim();
 }
 
-// Get admin password from env
 export function getAdminPassword(): string {
-    return process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'kittle2024';
+    return process.env.NEXT_PUBLIC_ADMIN_PASSWORD || '';
 }
