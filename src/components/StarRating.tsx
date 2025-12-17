@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { addRating, getAverageRating, getTotalRatings, hasUserRated, setUserRated } from '@/lib/ratings';
+import { addRating, getAverageRating, hasUserRated, markUserRated } from '@/lib/firebase-ratings';
 
 interface StarRatingProps {
     publicationId: string;
@@ -28,23 +28,39 @@ export default function StarRating({
     const [totalRatings, setTotalRatings] = useState(0);
     const [hasRated, setHasRated] = useState(false);
     const [isClient, setIsClient] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         setIsClient(true);
-        setAverageRating(getAverageRating(publicationId));
-        setTotalRatings(getTotalRatings(publicationId));
         setHasRated(hasUserRated(publicationId));
+
+        // Load ratings
+        getAverageRating(publicationId).then(({ average, total }) => {
+            setAverageRating(average);
+            setTotalRatings(total);
+        });
     }, [publicationId]);
 
-    const handleClick = (value: number) => {
-        if (readonly || hasRated) return;
+    const handleClick = async (value: number) => {
+        if (readonly || hasRated || isSubmitting) return;
 
+        setIsSubmitting(true);
         setRating(value);
-        addRating(publicationId, value);
-        setUserRated(publicationId);
-        setHasRated(true);
-        setAverageRating(getAverageRating(publicationId));
-        setTotalRatings(getTotalRatings(publicationId));
+
+        try {
+            await addRating(publicationId, value);
+            markUserRated(publicationId);
+            setHasRated(true);
+
+            // Refresh ratings
+            const { average, total } = await getAverageRating(publicationId);
+            setAverageRating(average);
+            setTotalRatings(total);
+        } catch (error) {
+            console.error('Error submitting rating:', error);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const displayRating = readonly ? averageRating : (hoverRating || rating || averageRating);
@@ -75,7 +91,7 @@ export default function StarRating({
                     <button
                         key={star}
                         type="button"
-                        disabled={readonly || hasRated}
+                        disabled={readonly || hasRated || isSubmitting}
                         onClick={() => handleClick(star)}
                         onMouseEnter={() => !readonly && !hasRated && setHoverRating(star)}
                         onMouseLeave={() => setHoverRating(0)}
@@ -112,7 +128,7 @@ export default function StarRating({
 
             {hasRated && !readonly && (
                 <span className="text-xs text-[var(--text-muted)]">
-                    Gracias por tu voto
+                    Gracias
                 </span>
             )}
         </div>

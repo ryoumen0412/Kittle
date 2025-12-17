@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Publication } from '@/lib/types';
-import { getStoredRecentPublications } from '@/lib/publications';
+import { getRecentPublications } from '@/lib/firebase-publications';
 import PublicationGrid from '@/components/PublicationGrid';
 import Link from 'next/link';
 
@@ -11,8 +11,10 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setPublications(getStoredRecentPublications(6));
-    setIsLoading(false);
+    getRecentPublications(6).then((pubs) => {
+      setPublications(pubs);
+      setIsLoading(false);
+    });
   }, []);
 
   return (

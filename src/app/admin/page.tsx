@@ -4,63 +4,68 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import AdminLayout from '@/components/AdminLayout';
 import { Publication, categoryLabels } from '@/lib/types';
-import { getStoredPublications, deletePublication } from '@/lib/publications';
+import { getPublications, deletePublicationById } from '@/lib/firebase-publications';
 
 export default function AdminPage() {
     const [publications, setPublications] = useState<Publication[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [deleteId, setDeleteId] = useState<string | null>(null);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     useEffect(() => {
         loadPublications();
     }, []);
 
-    const loadPublications = () => {
-        const pubs = getStoredPublications();
+    const loadPublications = async () => {
+        const pubs = await getPublications();
         setPublications(pubs);
         setIsLoading(false);
     };
 
-    const handleDelete = (id: string) => {
-        if (deletePublication(id)) {
-            loadPublications();
+    const handleDelete = async (id: string) => {
+        setIsDeleting(true);
+        try {
+            await deletePublicationById(id);
+            await loadPublications();
+        } catch (error) {
+            console.error('Error deleting:', error);
+        } finally {
             setDeleteId(null);
+            setIsDeleting(false);
         }
     };
 
     return (
         <AdminLayout>
             <div className="animate-fadeIn">
-                {/* Header */}
                 <div className="flex items-center justify-between mb-8">
                     <div>
                         <h1 className="text-2xl md:text-3xl font-serif font-bold text-[var(--text-primary)]">
-                            Mis Publicaciones
+                            Publicaciones
                         </h1>
                         <p className="text-sm text-[var(--text-muted)] mt-1">
-                            {publications.length} publicaciones en total
+                            {publications.length} en total
                         </p>
                     </div>
                     <Link href="/admin/nueva" className="btn-primary">
-                        Nueva Publicacion
+                        Nueva
                     </Link>
                 </div>
 
-                {/* Publications List */}
                 {isLoading ? (
                     <div className="text-center py-12 text-[var(--text-muted)]">
-                        Cargando publicaciones...
+                        Cargando...
                     </div>
                 ) : publications.length === 0 ? (
                     <div className="card p-12 text-center">
                         <h3 className="text-lg font-serif text-[var(--text-primary)] mb-2">
-                            No hay publicaciones aun
+                            Vacio
                         </h3>
                         <p className="text-sm text-[var(--text-muted)] mb-6">
-                            Comienza creando tu primera historia
+                            No hay nada publicado
                         </p>
                         <Link href="/admin/nueva" className="btn-primary">
-                            Crear publicacion
+                            Crear
                         </Link>
                     </div>
                 ) : (
@@ -105,15 +110,16 @@ export default function AdminPage() {
                                         <div className="flex items-center gap-2">
                                             <button
                                                 onClick={() => handleDelete(pub.id)}
+                                                disabled={isDeleting}
                                                 className="px-3 py-2 text-sm text-[var(--pink-neon)] hover:text-white transition-colors"
                                             >
-                                                Confirmar
+                                                {isDeleting ? '...' : 'Si'}
                                             </button>
                                             <button
                                                 onClick={() => setDeleteId(null)}
                                                 className="px-3 py-2 text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
                                             >
-                                                Cancelar
+                                                No
                                             </button>
                                         </div>
                                     ) : (

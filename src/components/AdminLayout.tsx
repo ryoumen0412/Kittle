@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, ReactNode } from 'react';
-import { isAdminAuthenticated, authenticateAdmin } from '@/lib/publications';
+import { getAdminPassword } from '@/lib/firebase-publications';
 import Link from 'next/link';
 
 interface AdminLayoutProps {
@@ -15,13 +15,17 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        setIsAuthenticated(isAdminAuthenticated());
+        const auth = localStorage.getItem('kittle_admin_auth');
+        setIsAuthenticated(auth === 'true');
         setIsLoading(false);
     }, []);
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
-        if (authenticateAdmin(password)) {
+        const adminPassword = getAdminPassword();
+
+        if (password === adminPassword) {
+            localStorage.setItem('kittle_admin_auth', 'true');
             setIsAuthenticated(true);
             setError('');
         } else {
@@ -42,27 +46,21 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             <div className="min-h-screen flex items-center justify-center p-4">
                 <div className="card p-8 w-full max-w-md">
                     <h1 className="text-2xl font-serif font-bold text-[var(--text-primary)] mb-2 text-center">
-                        Panel de Administracion
+                        Admin
                     </h1>
                     <p className="text-sm text-[var(--text-muted)] text-center mb-8">
-                        Ingresa tu contrasena para continuar
+                        Ingresa la contrasena
                     </p>
 
                     <form onSubmit={handleLogin}>
                         <div className="mb-4">
-                            <label
-                                htmlFor="password"
-                                className="block text-sm font-medium text-[var(--text-secondary)] mb-2"
-                            >
-                                Contrasena
-                            </label>
                             <input
                                 type="password"
                                 id="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 className="w-full px-4 py-3 bg-[var(--navy-800)] border border-[var(--navy-700)] rounded-lg text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--pink-neon)] transition-colors"
-                                placeholder="Ingresa la contrasena"
+                                placeholder="Contrasena"
                                 autoFocus
                             />
                         </div>
@@ -72,7 +70,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                         )}
 
                         <button type="submit" className="btn-primary w-full">
-                            Ingresar
+                            Entrar
                         </button>
                     </form>
 
@@ -81,7 +79,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                             href="/"
                             className="text-sm text-[var(--text-muted)] hover:text-[var(--pink-neon)] transition-colors"
                         >
-                            Volver al sitio
+                            Volver
                         </Link>
                     </div>
                 </div>
@@ -91,7 +89,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
     return (
         <div className="min-h-screen">
-            {/* Admin Header */}
             <header className="glass-dark border-b border-[var(--navy-700)]">
                 <div className="container">
                     <div className="flex items-center justify-between h-16">
@@ -100,7 +97,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                                 href="/admin"
                                 className="text-xl font-serif font-bold gradient-text"
                             >
-                                Kittle Admin
+                                Kittle
                             </Link>
                             <nav className="hidden md:flex items-center gap-6">
                                 <Link
@@ -113,7 +110,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                                     href="/admin/nueva"
                                     className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                                 >
-                                    Nueva Publicacion
+                                    Nueva
                                 </Link>
                             </nav>
                         </div>
@@ -122,7 +119,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                                 href="/"
                                 className="text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
                             >
-                                Ver sitio
+                                Sitio
                             </Link>
                             <button
                                 onClick={() => {
@@ -131,14 +128,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                                 }}
                                 className="text-sm text-[var(--text-muted)] hover:text-[var(--pink-neon)] transition-colors"
                             >
-                                Cerrar sesion
+                                Salir
                             </button>
                         </div>
                     </div>
                 </div>
             </header>
 
-            {/* Admin Content */}
             <main className="container" style={{ paddingTop: '3rem', paddingBottom: '4rem' }}>
                 {children}
             </main>

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import AdminLayout from '@/components/AdminLayout';
 import PublicationForm from '@/components/PublicationForm';
 import { Publication } from '@/lib/types';
-import { getStoredPublications, updatePublication } from '@/lib/publications';
+import { getPublications, updatePublication } from '@/lib/firebase-publications';
 
 interface PageProps {
     params: Promise<{ id: string }>;
@@ -20,25 +20,25 @@ export default function EditPublicationPage({ params }: PageProps) {
     const [notFound, setNotFound] = useState(false);
 
     useEffect(() => {
-        const publications = getStoredPublications();
-        const pub = publications.find((p) => p.id === id);
-
-        if (pub) {
-            setPublication(pub);
-        } else {
-            setNotFound(true);
-        }
-        setIsLoading(false);
+        getPublications().then((pubs) => {
+            const pub = pubs.find((p) => p.id === id);
+            if (pub) {
+                setPublication(pub);
+            } else {
+                setNotFound(true);
+            }
+            setIsLoading(false);
+        });
     }, [id]);
 
-    const handleSubmit = (data: Omit<Publication, 'id'>) => {
+    const handleSubmit = async (data: Omit<Publication, 'id'>) => {
         setIsSubmitting(true);
 
         try {
-            updatePublication(id, data);
+            await updatePublication(id, data);
             router.push('/admin');
         } catch (error) {
-            console.error('Error updating publication:', error);
+            console.error('Error:', error);
             setIsSubmitting(false);
         }
     };
@@ -51,7 +51,7 @@ export default function EditPublicationPage({ params }: PageProps) {
         return (
             <AdminLayout>
                 <div className="text-center py-12 text-[var(--text-muted)]">
-                    Cargando publicacion...
+                    Cargando...
                 </div>
             </AdminLayout>
         );
@@ -62,13 +62,10 @@ export default function EditPublicationPage({ params }: PageProps) {
             <AdminLayout>
                 <div className="card p-12 text-center max-w-md mx-auto">
                     <h2 className="text-xl font-serif text-[var(--text-primary)] mb-2">
-                        Publicacion no encontrada
+                        No existe
                     </h2>
-                    <p className="text-sm text-[var(--text-muted)] mb-6">
-                        La publicacion que intentas editar no existe
-                    </p>
                     <button onClick={handleCancel} className="btn-primary">
-                        Volver a publicaciones
+                        Volver
                     </button>
                 </div>
             </AdminLayout>
@@ -78,17 +75,12 @@ export default function EditPublicationPage({ params }: PageProps) {
     return (
         <AdminLayout>
             <div className="animate-fadeIn max-w-4xl">
-                {/* Header */}
                 <div className="mb-8">
                     <h1 className="text-2xl md:text-3xl font-serif font-bold text-[var(--text-primary)]">
-                        Editar Publicacion
+                        Editar
                     </h1>
-                    <p className="text-sm text-[var(--text-muted)] mt-1">
-                        Modifica los detalles de tu publicacion
-                    </p>
                 </div>
 
-                {/* Form */}
                 <div className="card p-6 md:p-8">
                     {publication && (
                         <PublicationForm
