@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Publication, Category, categoryLabels } from '@/lib/types';
-import { generateSlug } from '@/lib/publications';
+import { generateSlug } from '@/lib/firebase-publications';
 
 interface PublicationFormProps {
     publication?: Publication;
