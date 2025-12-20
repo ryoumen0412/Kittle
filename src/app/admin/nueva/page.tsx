@@ -15,8 +15,13 @@ export default function NewPublicationPage() {
         setIsSubmitting(true);
 
         try {
-            await createPublication(data);
-            router.push('/admin');
+            // Create publication as draft (with empty content)
+            const id = await createPublication({
+                ...data,
+                content: '', // Empty content, will be filled in editor
+            });
+            // Redirect to editor page
+            router.push(`/admin/editar/${id}/editor`);
         } catch (error) {
             console.error('Error:', error);
             setIsSubmitting(false);
@@ -31,11 +36,11 @@ export default function NewPublicationPage() {
         <AdminLayout>
             <div className="animate-fadeIn max-w-4xl">
                 <div className="mb-8">
-                    <h1 className="text-2xl md:text-3xl font-serif font-bold text-[var(--text-primary)]">
-                        Nueva
+                    <h1 className="text-base md:text-lg font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-cyan)] neon-glow-cyan">
+                        Nueva Publicación
                     </h1>
-                    <p className="text-sm text-[var(--text-muted)] mt-1">
-                        Escribir algo nuevo
+                    <p className="text-sm text-[var(--text-muted)] mt-2">
+                        Paso 1: Completa los datos básicos
                     </p>
                 </div>
 

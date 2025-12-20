@@ -21,6 +21,11 @@ export const metadata: Metadata = {
   title: "Kittle - Historias, Cuentos y Novelas",
   description: "Un espacio para compartir historias, cuentos y novelas. Donde las palabras cobran vida.",
   keywords: ["historias", "cuentos", "novelas", "blog", "literatura", "escritura"],
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
@@ -29,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <body
         className={`${inter.variable} ${pixelFont.variable} antialiased min-h-screen flex flex-col`}
       >

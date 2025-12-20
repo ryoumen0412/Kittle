@@ -9,6 +9,7 @@ interface PublicationFormProps {
     onSubmit: (data: Omit<Publication, 'id'>) => void;
     onCancel: () => void;
     isSubmitting?: boolean;
+    submitLabel?: string;
 }
 
 const categories: Category[] = ['historia', 'cuento', 'novela', 'blog'];
@@ -17,15 +18,14 @@ export default function PublicationForm({
     publication,
     onSubmit,
     onCancel,
-    isSubmitting = false
+    isSubmitting = false,
+    submitLabel
 }: PublicationFormProps) {
     const [title, setTitle] = useState(publication?.title || '');
     const [slug, setSlug] = useState(publication?.slug || '');
     const [category, setCategory] = useState<Category>(publication?.category || 'historia');
     const [excerpt, setExcerpt] = useState(publication?.excerpt || '');
-    const [content, setContent] = useState(publication?.content || '');
     const [author, setAuthor] = useState(publication?.author || '');
-    const [readingTime, setReadingTime] = useState(publication?.readingTime || 5);
     const [autoSlug, setAutoSlug] = useState(!publication);
 
     useEffect(() => {
@@ -33,16 +33,6 @@ export default function PublicationForm({
             setSlug(generateSlug(title));
         }
     }, [title, autoSlug]);
-
-    // Calculate reading time based on content
-    useEffect(() => {
-        if (content) {
-            const wordsPerMinute = 200;
-            const words = content.trim().split(/\s+/).length;
-            const time = Math.max(1, Math.ceil(words / wordsPerMinute));
-            setReadingTime(time);
-        }
-    }, [content]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -52,9 +42,9 @@ export default function PublicationForm({
             slug,
             category,
             excerpt,
-            content,
+            content: publication?.content || '', // Preserve existing content or empty
             author,
-            readingTime,
+            readingTime: publication?.readingTime || 1,
             publishedAt: publication?.publishedAt || new Date().toISOString().split('T')[0],
         });
     };
@@ -65,17 +55,17 @@ export default function PublicationForm({
             <div>
                 <label
                     htmlFor="title"
-                    className="block text-sm font-medium text-[var(--text-secondary)] mb-2"
+                    className="block text-xs font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-cyan)] mb-2"
                 >
-                    Titulo
+                    Título
                 </label>
                 <input
                     type="text"
                     id="title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full px-4 py-3 bg-[var(--navy-800)] border border-[var(--navy-700)] rounded-lg text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--pink-neon)] transition-colors"
-                    placeholder="El titulo de tu publicacion"
+                    className="w-full px-4 py-3 bg-[var(--navy-800)] border-2 border-[var(--navy-700)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--arcade-cyan)] transition-colors"
+                    placeholder="El título de tu publicación"
                     required
                 />
             </div>
@@ -85,7 +75,7 @@ export default function PublicationForm({
                 <div className="flex items-center justify-between mb-2">
                     <label
                         htmlFor="slug"
-                        className="block text-sm font-medium text-[var(--text-secondary)]"
+                        className="block text-xs font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-cyan)]"
                     >
                         URL (slug)
                     </label>
@@ -94,9 +84,9 @@ export default function PublicationForm({
                             type="checkbox"
                             checked={autoSlug}
                             onChange={(e) => setAutoSlug(e.target.checked)}
-                            className="rounded border-[var(--navy-700)]"
+                            className="accent-[var(--arcade-cyan)]"
                         />
-                        Generar automaticamente
+                        Generar automáticamente
                     </label>
                 </div>
                 <input
@@ -107,7 +97,7 @@ export default function PublicationForm({
                         setSlug(e.target.value);
                         setAutoSlug(false);
                     }}
-                    className="w-full px-4 py-3 bg-[var(--navy-800)] border border-[var(--navy-700)] rounded-lg text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--pink-neon)] transition-colors font-mono text-sm"
+                    className="w-full px-4 py-3 bg-[var(--navy-800)] border-2 border-[var(--navy-700)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--arcade-cyan)] transition-colors font-mono text-sm"
                     placeholder="url-de-la-publicacion"
                     required
                 />
@@ -122,15 +112,15 @@ export default function PublicationForm({
                 <div>
                     <label
                         htmlFor="category"
-                        className="block text-sm font-medium text-[var(--text-secondary)] mb-2"
+                        className="block text-xs font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-cyan)] mb-2"
                     >
-                        Categoria
+                        Categoría
                     </label>
                     <select
                         id="category"
                         value={category}
                         onChange={(e) => setCategory(e.target.value as Category)}
-                        className="w-full px-4 py-3 bg-[var(--navy-800)] border border-[var(--navy-700)] rounded-lg text-[var(--text-primary)] focus:outline-none focus:border-[var(--pink-neon)] transition-colors"
+                        className="w-full px-4 py-3 bg-[var(--navy-800)] border-2 border-[var(--navy-700)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--arcade-cyan)] transition-colors"
                     >
                         {categories.map((cat) => (
                             <option key={cat} value={cat}>
@@ -144,7 +134,7 @@ export default function PublicationForm({
                 <div>
                     <label
                         htmlFor="author"
-                        className="block text-sm font-medium text-[var(--text-secondary)] mb-2"
+                        className="block text-xs font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-cyan)] mb-2"
                     >
                         Autor
                     </label>
@@ -153,7 +143,7 @@ export default function PublicationForm({
                         id="author"
                         value={author}
                         onChange={(e) => setAuthor(e.target.value)}
-                        className="w-full px-4 py-3 bg-[var(--navy-800)] border border-[var(--navy-700)] rounded-lg text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--pink-neon)] transition-colors"
+                        className="w-full px-4 py-3 bg-[var(--navy-800)] border-2 border-[var(--navy-700)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--arcade-cyan)] transition-colors"
                         placeholder="Tu nombre"
                         required
                     />
@@ -164,49 +154,23 @@ export default function PublicationForm({
             <div>
                 <label
                     htmlFor="excerpt"
-                    className="block text-sm font-medium text-[var(--text-secondary)] mb-2"
+                    className="block text-xs font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-cyan)] mb-2"
                 >
-                    Extracto / Descripcion breve
+                    Extracto / Descripción breve
                 </label>
                 <textarea
                     id="excerpt"
                     value={excerpt}
                     onChange={(e) => setExcerpt(e.target.value)}
                     rows={3}
-                    className="w-full px-4 py-3 bg-[var(--navy-800)] border border-[var(--navy-700)] rounded-lg text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--pink-neon)] transition-colors resize-none"
-                    placeholder="Un breve resumen que aparecera en las tarjetas de preview"
-                    required
-                />
-            </div>
-
-            {/* Content */}
-            <div>
-                <div className="flex items-center justify-between mb-2">
-                    <label
-                        htmlFor="content"
-                        className="block text-sm font-medium text-[var(--text-secondary)]"
-                    >
-                        Contenido
-                    </label>
-                    <span className="text-xs text-[var(--text-muted)]">
-                        Tiempo de lectura estimado: {readingTime} min
-                    </span>
-                </div>
-                <textarea
-                    id="content"
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                    rows={20}
-                    className="w-full px-4 py-3 bg-[var(--navy-800)] border border-[var(--navy-700)] rounded-lg text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--pink-neon)] transition-colors resize-y font-mono text-sm leading-relaxed"
-                    placeholder="Escribe tu historia aqui...
-
-Separa los parrafos con lineas en blanco para mejor formato."
+                    className="w-full px-4 py-3 bg-[var(--navy-800)] border-2 border-[var(--navy-700)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--arcade-cyan)] transition-colors resize-none"
+                    placeholder="Un breve resumen que aparecerá en las tarjetas de preview"
                     required
                 />
             </div>
 
             {/* Actions */}
-            <div className="flex items-center justify-end gap-4 pt-4 border-t border-[var(--navy-700)]">
+            <div className="flex items-center justify-end gap-4 pt-4 border-t-2 border-[var(--navy-700)]">
                 <button
                     type="button"
                     onClick={onCancel}
@@ -220,7 +184,7 @@ Separa los parrafos con lineas en blanco para mejor formato."
                     className="btn-primary"
                     disabled={isSubmitting}
                 >
-                    {isSubmitting ? 'Guardando...' : (publication ? 'Guardar cambios' : 'Publicar')}
+                    {isSubmitting ? 'Guardando...' : (submitLabel || (publication ? 'Guardar cambios' : 'Continuar al Editor ▶'))}
                 </button>
             </div>
         </form>

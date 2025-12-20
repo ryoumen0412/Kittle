@@ -29,14 +29,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             setIsAuthenticated(true);
             setError('');
         } else {
-            setError('Contrasena incorrecta');
+            setError('Contraseña incorrecta');
         }
     };
 
     if (isLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <div className="text-[var(--text-muted)]">Cargando...</div>
+                <div className="insert-coin-loader">Cargando...</div>
             </div>
         );
     }
@@ -45,11 +45,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         return (
             <div className="min-h-screen flex items-center justify-center p-4">
                 <div className="card p-8 w-full max-w-md">
-                    <h1 className="text-2xl font-serif font-bold text-[var(--text-primary)] mb-2 text-center">
+                    <h1 className="text-base font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-cyan)] mb-2 text-center neon-glow-cyan">
                         Admin
                     </h1>
-                    <p className="text-sm text-[var(--text-muted)] text-center mb-8">
-                        Ingresa la contrasena
+                    <p className="text-xs font-[family-name:var(--font-pixel)] uppercase text-[var(--text-muted)] text-center mb-8">
+                        Ingresa la contraseña
                     </p>
 
                     <form onSubmit={handleLogin}>
@@ -59,27 +59,29 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                                 id="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-full px-4 py-3 bg-[var(--navy-800)] border border-[var(--navy-700)] rounded-lg text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--pink-neon)] transition-colors"
-                                placeholder="Contrasena"
+                                className="w-full px-4 py-3 bg-[var(--navy-800)] border-2 border-[var(--navy-700)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--arcade-cyan)] transition-colors font-mono"
+                                placeholder="••••••••"
                                 autoFocus
                             />
                         </div>
 
                         {error && (
-                            <p className="text-sm text-[var(--pink-neon)] mb-4">{error}</p>
+                            <p className="text-xs font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-red)] mb-4 text-center">
+                                {error}
+                            </p>
                         )}
 
                         <button type="submit" className="btn-primary w-full">
-                            Entrar
+                            ▶ Entrar
                         </button>
                     </form>
 
                     <div className="mt-6 text-center">
                         <Link
                             href="/"
-                            className="text-sm text-[var(--text-muted)] hover:text-[var(--pink-neon)] transition-colors"
+                            className="text-xs font-[family-name:var(--font-pixel)] uppercase text-[var(--text-muted)] hover:text-[var(--arcade-cyan)] transition-colors"
                         >
-                            Volver
+                            ◀ Volver
                         </Link>
                     </div>
                 </div>
@@ -89,46 +91,46 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
     return (
         <div className="min-h-screen">
-            <header className="glass-dark border-b border-[var(--navy-700)]">
+            <header className="glass-dark border-b-2 border-[var(--arcade-magenta)]">
                 <div className="container">
                     <div className="flex items-center justify-between h-16">
                         <div className="flex items-center gap-8">
                             <Link
                                 href="/admin"
-                                className="text-xl font-serif font-bold gradient-text"
+                                className="text-sm font-[family-name:var(--font-pixel)] uppercase gradient-text"
                             >
                                 Kittle
                             </Link>
                             <nav className="hidden md:flex items-center gap-6">
                                 <Link
                                     href="/admin"
-                                    className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                                    className="text-xs font-[family-name:var(--font-pixel)] uppercase text-[var(--text-secondary)] hover:text-[var(--arcade-cyan)] transition-colors"
                                 >
-                                    Publicaciones
+                                    ▶ Publicaciones
                                 </Link>
                                 <Link
                                     href="/admin/nueva"
-                                    className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                                    className="text-xs font-[family-name:var(--font-pixel)] uppercase text-[var(--text-secondary)] hover:text-[var(--arcade-cyan)] transition-colors"
                                 >
-                                    Nueva
+                                    + Nueva
                                 </Link>
                             </nav>
                         </div>
                         <div className="flex items-center gap-4">
                             <Link
                                 href="/"
-                                className="text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+                                className="text-xs font-[family-name:var(--font-pixel)] uppercase text-[var(--text-muted)] hover:text-[var(--arcade-green)] transition-colors"
                             >
-                                Sitio
+                                Sitio ↗
                             </Link>
                             <button
                                 onClick={() => {
                                     localStorage.removeItem('kittle_admin_auth');
                                     setIsAuthenticated(false);
                                 }}
-                                className="text-sm text-[var(--text-muted)] hover:text-[var(--pink-neon)] transition-colors"
+                                className="text-xs font-[family-name:var(--font-pixel)] uppercase text-[var(--text-muted)] hover:text-[var(--arcade-red)] transition-colors"
                             >
-                                Salir
+                                Salir ✕
                             </button>
                         </div>
                     </div>

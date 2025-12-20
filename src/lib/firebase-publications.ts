@@ -65,6 +65,25 @@ export async function getPublicationBySlug(slug: string): Promise<Publication | 
     }
 }
 
+// Get publication by ID
+export async function getPublicationById(id: string): Promise<Publication | null> {
+    if (!isFirebaseConfigured()) {
+        return mockPublications.find((p) => p.id === id) || null;
+    }
+
+    try {
+        const docRef = doc(db, PUBLICATIONS_COLLECTION, id);
+        const docSnap = await getDoc(docRef);
+
+        if (!docSnap.exists()) return null;
+
+        return { id: docSnap.id, ...docSnap.data() } as Publication;
+    } catch (error) {
+        console.error('Error fetching publication by ID:', error);
+        return mockPublications.find((p) => p.id === id) || null;
+    }
+}
+
 // Get publications by category
 export async function getPublicationsByCategory(category: Category): Promise<Publication[]> {
     if (!isFirebaseConfigured()) {
@@ -119,13 +138,14 @@ export async function getRecentPublications(count: number = 6): Promise<Publicat
     }
 }
 
-// Create publication
-export async function createPublication(data: Omit<Publication, 'id'>): Promise<Publication> {
+// Create publication (returns the new publication ID)
+export async function createPublication(data: Omit<Publication, 'id'>): Promise<string> {
     if (!isFirebaseConfigured()) {
         // Fallback to mock behavior
-        const newPub = { ...data, id: Date.now().toString() };
+        const id = Date.now().toString();
+        const newPub = { ...data, id };
         mockPublications.unshift(newPub);
-        return newPub;
+        return id;
     }
 
     try {
@@ -134,7 +154,7 @@ export async function createPublication(data: Omit<Publication, 'id'>): Promise<
             createdAt: Timestamp.now(),
         });
 
-        return { id: docRef.id, ...data };
+        return docRef.id;
     } catch (error) {
         console.error('Error creating publication:', error);
         throw error;

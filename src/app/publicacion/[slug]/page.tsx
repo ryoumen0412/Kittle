@@ -121,16 +121,21 @@ export default function PublicationPage() {
 
                     {/* Content */}
                     <div className="card p-6 md:p-10 lg:p-12 mb-8 md:mb-12">
-                        <div className="prose prose-lg prose-invert max-w-none">
-                            {publication.content.split('\n\n').map((paragraph, index) => (
-                                <p
-                                    key={index}
-                                    className="text-[var(--text-secondary)] leading-relaxed mb-6"
-                                >
-                                    {paragraph.trim()}
-                                </p>
-                            ))}
-                        </div>
+                        {/* Check if content is HTML (from rich editor) or plain text (legacy) */}
+                        {publication.content.includes('<') ? (
+                            <div
+                                className="publication-content"
+                                dangerouslySetInnerHTML={{ __html: publication.content }}
+                            />
+                        ) : (
+                            <div className="publication-content">
+                                {publication.content.split('\n\n').map((paragraph, index) => (
+                                    <p key={index}>
+                                        {paragraph.trim()}
+                                    </p>
+                                ))}
+                            </div>
+                        )}
                     </div>
 
                     {/* Rating Section */}

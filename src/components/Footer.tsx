@@ -1,7 +1,14 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function Footer() {
-    const currentYear = new Date().getFullYear();
+    const [currentYear, setCurrentYear] = useState(2024);
+
+    useEffect(() => {
+        setCurrentYear(new Date().getFullYear());
+    }, []);
 
     return (
         <footer className="glass-dark mt-auto border-t-2 border-[var(--arcade-cyan)]">

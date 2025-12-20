@@ -41,6 +41,11 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Decorative Divider */}
+      <div className="container">
+        <hr className="pixel-divider" />
+      </div>
+
       {/* Recent Publications */}
       <section className="py-16 md:py-20">
         <div className="container">
@@ -69,8 +74,8 @@ export default function Home() {
           </div>
 
           {isLoading ? (
-            <div className="text-center py-12 text-[var(--arcade-cyan)] font-[family-name:var(--font-pixel)] text-sm flicker">
-              Cargando...
+            <div className="text-center py-12">
+              <span className="insert-coin-loader">Cargando...</span>
             </div>
           ) : (
             <PublicationGrid publications={publications} />
@@ -83,6 +88,11 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Decorative Divider */}
+      <div className="container">
+        <hr className="retro-divider" />
+      </div>
 
       {/* Categories Section */}
       <section className="py-16 md:py-20">
