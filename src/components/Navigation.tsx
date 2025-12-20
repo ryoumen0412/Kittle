@@ -22,22 +22,25 @@ export default function Navigation() {
                     {/* Logo */}
                     <Link
                         href="/"
-                        className="text-2xl md:text-3xl font-serif font-bold gradient-text"
+                        className="text-lg md:text-xl font-[family-name:var(--font-pixel)] glitch-text gradient-text tracking-wide"
                     >
-                        Kittle
+                        KITTLE
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <ul className="hidden md:flex items-center gap-8">
+                    <ul className="hidden md:flex items-center gap-6">
                         {navItems.map((item) => (
-                            <li key={item.href}>
+                            <li key={item.href} className="relative">
                                 <Link
                                     href={item.href}
-                                    className={`text-sm font-medium transition-colors duration-200 ${pathname === item.href
-                                            ? 'text-[var(--pink-neon)]'
-                                            : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                                    className={`text-xs font-[family-name:var(--font-pixel)] uppercase tracking-wider transition-all duration-200 px-2 py-1 ${pathname === item.href
+                                            ? 'text-[var(--arcade-magenta)] neon-glow-pink'
+                                            : 'text-[var(--text-secondary)] hover:text-[var(--arcade-cyan)] hover:neon-glow-cyan'
                                         }`}
                                 >
+                                    {pathname === item.href && (
+                                        <span className="absolute -left-3 text-[var(--arcade-yellow)]">▶</span>
+                                    )}
                                     {item.label}
                                 </Link>
                             </li>
@@ -46,8 +49,8 @@ export default function Navigation() {
 
                     {/* Mobile Menu Button */}
                     <button
-                        className="md:hidden p-2 text-[var(--text-secondary)]"
-                        aria-label="Menu"
+                        className="md:hidden p-2 text-[var(--arcade-cyan)] border-2 border-[var(--arcade-cyan)] hover:bg-[var(--arcade-cyan)] hover:text-[var(--navy-900)] transition-all"
+                        aria-label="Menú"
                         onClick={() => {
                             const menu = document.getElementById('mobile-menu');
                             if (menu) {
@@ -56,14 +59,14 @@ export default function Navigation() {
                         }}
                     >
                         <svg
-                            width="24"
-                            height="24"
+                            width="20"
+                            height="20"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
+                            strokeWidth="3"
+                            strokeLinecap="square"
+                            strokeLinejoin="miter"
                         >
                             <line x1="3" y1="6" x2="21" y2="6" />
                             <line x1="3" y1="12" x2="21" y2="12" />
@@ -74,16 +77,25 @@ export default function Navigation() {
 
                 {/* Mobile Navigation */}
                 <div id="mobile-menu" className="hidden md:hidden pb-4">
-                    <ul className="flex flex-col gap-2">
+                    <ul className="flex flex-col gap-1 border-t-2 border-[var(--arcade-cyan)] pt-4">
                         {navItems.map((item) => (
                             <li key={item.href}>
                                 <Link
                                     href={item.href}
-                                    className={`block py-2 px-4 rounded-lg text-sm font-medium transition-colors duration-200 ${pathname === item.href
-                                            ? 'text-[var(--pink-neon)] bg-[var(--navy-800)]'
-                                            : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--navy-800)]'
+                                    className={`block py-3 px-4 text-xs font-[family-name:var(--font-pixel)] uppercase tracking-wider transition-all duration-200 border-l-4 ${pathname === item.href
+                                            ? 'text-[var(--arcade-magenta)] border-[var(--arcade-magenta)] bg-[rgba(255,0,255,0.1)]'
+                                            : 'text-[var(--text-secondary)] border-transparent hover:text-[var(--arcade-cyan)] hover:border-[var(--arcade-cyan)] hover:bg-[rgba(0,255,255,0.05)]'
                                         }`}
+                                    onClick={() => {
+                                        const menu = document.getElementById('mobile-menu');
+                                        if (menu) {
+                                            menu.classList.add('hidden');
+                                        }
+                                    }}
                                 >
+                                    {pathname === item.href && (
+                                        <span className="mr-2 text-[var(--arcade-yellow)]">▶</span>
+                                    )}
                                     {item.label}
                                 </Link>
                             </li>

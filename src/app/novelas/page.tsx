@@ -21,16 +21,16 @@ export default function NovelasPage() {
             <section className="py-12 md:py-16">
                 <div className="container">
                     <div className="mb-8 md:mb-12">
-                        <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-[var(--text-primary)] mb-4">
+                        <h1 className="text-lg md:text-xl lg:text-2xl font-[family-name:var(--font-pixel)] uppercase text-[#b388ff] mb-4" style={{ textShadow: '0 0 10px #b388ff' }}>
                             Novelas
                         </h1>
-                        <p className="text-lg text-[var(--text-secondary)] max-w-2xl">
-                            Proyectos largos. Algunos terminados, otros en progreso. La mayoria abandonados.
+                        <p className="text-base text-[var(--text-secondary)] max-w-2xl">
+                            Proyectos largos. Algunos terminados, otros en progreso. La mayoría abandonados.
                         </p>
                     </div>
 
                     {isLoading ? (
-                        <div className="text-center py-12 text-[var(--text-muted)]">
+                        <div className="text-center py-12 text-[var(--arcade-cyan)] font-[family-name:var(--font-pixel)] text-sm flicker">
                             Cargando...
                         </div>
                     ) : (

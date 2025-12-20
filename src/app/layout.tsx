@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Press_Start_2P } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -10,8 +10,9 @@ const inter = Inter({
   display: "swap",
 });
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const pixelFont = Press_Start_2P({
+  variable: "--font-pixel",
+  weight: "400",
   subsets: ["latin"],
   display: "swap",
 });
@@ -30,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${inter.variable} ${playfair.variable} antialiased min-h-screen flex flex-col`}
+        className={`${inter.variable} ${pixelFont.variable} antialiased min-h-screen flex flex-col`}
       >
         <Navigation />
         <main className="flex-grow">
@@ -41,3 +42,4 @@ export default function RootLayout({
     </html>
   );
 }
+

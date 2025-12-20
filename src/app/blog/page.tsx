@@ -21,22 +21,22 @@ export default function BlogPage() {
             <section className="py-12 md:py-16">
                 <div className="container">
                     <div className="mb-8 md:mb-12">
-                        <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-[var(--text-primary)] mb-4">
+                        <h1 className="text-lg md:text-xl lg:text-2xl font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-cyan)] mb-4 neon-glow-cyan">
                             Blog
                         </h1>
-                        <p className="text-lg text-[var(--text-secondary)] max-w-2xl">
-                            Pensamientos sueltos. Reflexiones. Excusas para no escribir ficcion.
+                        <p className="text-base text-[var(--text-secondary)] max-w-2xl">
+                            Pensamientos sueltos. Reflexiones. Excusas para no escribir ficción.
                         </p>
                     </div>
 
                     {isLoading ? (
-                        <div className="text-center py-12 text-[var(--text-muted)]">
+                        <div className="text-center py-12 text-[var(--arcade-cyan)] font-[family-name:var(--font-pixel)] text-sm flicker">
                             Cargando...
                         </div>
                     ) : (
                         <PublicationGrid
                             publications={publications}
-                            emptyMessage="El blog esta vacio. Como mi inspiracion."
+                            emptyMessage="El blog está vacío. Como mi inspiración."
                         />
                     )}
                 </div>

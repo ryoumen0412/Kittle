@@ -29,7 +29,9 @@ export default function PublicationPage() {
     if (isLoading) {
         return (
             <div className="min-h-[60vh] flex items-center justify-center">
-                <div className="text-[var(--text-muted)]">Cargando...</div>
+                <div className="text-[var(--arcade-cyan)] font-[family-name:var(--font-pixel)] text-sm flicker">
+                    Cargando...
+                </div>
             </div>
         );
     }
@@ -38,17 +40,17 @@ export default function PublicationPage() {
         return (
             <div className="animate-fadeIn min-h-[60vh] flex items-center justify-center">
                 <div className="container text-center">
-                    <h1 className="text-6xl md:text-8xl font-serif font-bold gradient-text mb-4">
+                    <h1 className="text-4xl md:text-6xl font-[family-name:var(--font-pixel)] gradient-text mb-4 glitch-text">
                         404
                     </h1>
-                    <h2 className="text-2xl md:text-3xl font-serif text-[var(--text-primary)] mb-4">
+                    <h2 className="text-lg md:text-xl font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-red)] mb-4">
                         No existe
                     </h2>
                     <p className="text-[var(--text-secondary)] mb-8 max-w-md mx-auto">
-                        Quiza estuvo aca. Quiza nunca. Ya no importa.
+                        Quizá estuvo aquí. Quizá nunca. Ya no importa.
                     </p>
                     <Link href="/" className="btn-primary">
-                        Volver
+                        ▶ Volver
                     </Link>
                 </div>
             </div>
@@ -77,16 +79,16 @@ export default function PublicationPage() {
                     {/* Back Link */}
                     <Link
                         href={backLink}
-                        className="inline-flex items-center text-sm text-[var(--text-muted)] hover:text-[var(--pink-neon)] transition-colors mb-8"
+                        className="inline-flex items-center text-xs font-[family-name:var(--font-pixel)] uppercase text-[var(--text-muted)] hover:text-[var(--arcade-cyan)] transition-colors mb-8 group"
                     >
                         <svg
-                            className="mr-2 w-4 h-4"
+                            className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
                             strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
+                            strokeLinecap="square"
+                            strokeLinejoin="miter"
                         >
                             <line x1="19" y1="12" x2="5" y2="12" />
                             <polyline points="12 19 5 12 12 5" />
@@ -100,19 +102,19 @@ export default function PublicationPage() {
                             {categoryLabels[publication.category]}
                         </span>
 
-                        <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-[var(--text-primary)] mb-6 leading-tight">
+                        <h1 className="text-base md:text-lg lg:text-xl font-[family-name:var(--font-pixel)] uppercase text-[var(--text-primary)] mb-6 leading-relaxed">
                             {publication.title}
                         </h1>
 
-                        <div className="flex flex-wrap items-center gap-4 text-sm text-[var(--text-muted)] mb-6">
-                            <span>{publication.author}</span>
-                            <span className="w-1 h-1 rounded-full bg-[var(--text-muted)]"></span>
+                        <div className="flex flex-wrap items-center gap-4 text-xs text-[var(--text-muted)] mb-6">
+                            <span className="text-[var(--arcade-cyan)]">{publication.author}</span>
+                            <span className="text-[var(--arcade-magenta)]">•</span>
                             <span>{formattedDate}</span>
-                            <span className="w-1 h-1 rounded-full bg-[var(--text-muted)]"></span>
+                            <span className="text-[var(--arcade-magenta)]">•</span>
                             <span>{publication.readingTime} min</span>
                         </div>
 
-                        <p className="text-lg text-[var(--text-secondary)] leading-relaxed border-l-4 border-[var(--pink-neon)] pl-4">
+                        <p className="text-base text-[var(--text-secondary)] leading-relaxed border-l-4 border-[var(--arcade-magenta)] pl-4 bg-[rgba(255,0,255,0.05)]">
                             {publication.excerpt}
                         </p>
                     </header>
@@ -133,11 +135,11 @@ export default function PublicationPage() {
 
                     {/* Rating Section */}
                     <section className="card p-6 md:p-8">
-                        <h2 className="text-xl font-serif font-semibold text-[var(--text-primary)] mb-4">
+                        <h2 className="text-sm font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-yellow)] mb-4">
                             Puntuar
                         </h2>
                         <p className="text-sm text-[var(--text-muted)] mb-6">
-                            Si llegaste hasta aca, podes dejar una opinion.
+                            Si llegaste hasta aquí, puedes dejar una opinión.
                         </p>
                         <StarRating publicationId={publication.id} readonly={false} size="lg" showCount={true} />
                     </section>
@@ -146,10 +148,10 @@ export default function PublicationPage() {
                     <div className="mt-8 md:mt-12 pt-8 border-t border-[var(--navy-700)]">
                         <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
                             <Link href={backLink} className="btn-secondary w-full sm:w-auto text-center">
-                                Ver mas
+                                Ver más
                             </Link>
                             <Link href="/" className="btn-primary w-full sm:w-auto text-center">
-                                Inicio
+                                ▶ Inicio
                             </Link>
                         </div>
                     </div>
