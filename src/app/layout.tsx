@@ -3,6 +3,7 @@ import { Inter, Press_Start_2P } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import PageTransition from "@/components/PageTransition";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -39,12 +40,15 @@ export default function RootLayout({
         className={`${inter.variable} ${pixelFont.variable} antialiased min-h-screen flex flex-col`}
       >
         <Navigation />
-        <main className="flex-grow">
-          {children}
-        </main>
+        <PageTransition>
+          <main className="flex-grow">
+            {children}
+          </main>
+        </PageTransition>
         <Footer />
       </body>
     </html>
   );
 }
+
 

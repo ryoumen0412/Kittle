@@ -988,3 +988,46 @@ a {
   background: none;
   padding: 0;
 }
+
+/* ===== PIXEL WIPE PAGE TRANSITION ===== */
+.pixel-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  grid-template-rows: repeat(16, 1fr);
+}
+
+.pixel-block-disintegrate {
+  background-color: var(--block-color);
+  opacity: 0;
+  transform: scale(0);
+  animation: pixelDisintegrate 200ms ease-out forwards;
+  animation-delay: var(--delay);
+  box-shadow: 0 0 4px var(--block-color);
+}
+
+/* Animación de desintegración - aparece y desaparece rápido (línea fina) */
+@keyframes pixelDisintegrate {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
