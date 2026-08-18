@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-serif: var(--font-serif), "Newsreader", Georgia, Cambria, "Times New Roman", serif;
-  --font-mono: var(--font-mono), "JetBrains Mono", Menlo, Consolas, monospace;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Newsreader", Georgia, Cambria, "Times New Roman", serif;
+  --font-mono: "JetBrains Mono", Menlo, Consolas, monospace;
 }
 
 :root {
@@ -72,8 +72,8 @@
   --border-strong: #454E63;
 
   --text-primary: #F4F6F8;
-  --text-secondary: #B1B8C5;
-  --text-muted: #798294;
+  --text-secondary: #BFC6D2;
+  --text-muted: #909BB0;
   --text-inverse: #0F1115;
 
   --accent-burdeo: #E26D82;
@@ -107,8 +107,8 @@
   --border-strong: #614455;
 
   --text-primary: #FAF0F3;
-  --text-secondary: #D4BDC6;
-  --text-muted: #967E88;
+  --text-secondary: #DCCAD3;
+  --text-muted: #A8919B;
   --text-inverse: #1A1317;
 
   --accent-burdeo: #EB7C8F;
@@ -138,8 +138,8 @@
   --border-strong: #426752;
 
   --text-primary: #EFF7F2;
-  --text-secondary: #B2CEBF;
-  --text-muted: #749784;
+  --text-secondary: #BED6CA;
+  --text-muted: #8EAD9C;
   --text-inverse: #0E1612;
 
   --accent-cactus: #73C292;

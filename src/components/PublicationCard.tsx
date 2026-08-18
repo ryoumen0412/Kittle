@@ -13,7 +13,7 @@ export default function PublicationCard({ publication }: PublicationCardProps) {
   });
 
   return (
-    <article className="indie-card indie-card-interactive p-6 md:p-7 flex flex-col h-full group">
+    <article className="indie-card indie-card-interactive p-6 md:p-8 flex flex-col h-full group">
       {/* Top Meta: Category Badge & Published Date */}
       <div className="flex items-center justify-between gap-3 mb-4">
         <span className={`badge badge-${publication.category}`}>

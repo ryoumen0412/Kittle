@@ -17,7 +17,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="mt-auto border-t border-[var(--border-subtle)] bg-[var(--bg-surface)] py-14 md:py-18 text-xs transition-colors">
+    <footer className="mt-auto border-t border-[var(--border-subtle)] bg-[var(--bg-surface)] py-12 md:py-16 text-xs transition-colors">
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
           {/* Manifesto / Brand */}

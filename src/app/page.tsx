@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <div className="animate-fade-in">
       {/* Hero Section */}
-      <section className="py-20 md:py-28 lg:py-32 border-b border-[var(--border-subtle)]">
+      <section className="py-16 md:py-24 lg:py-28 border-b border-[var(--border-subtle)]">
         <div className="container max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-xs text-[var(--text-secondary)] mb-8 shadow-xs">
             <span className="w-2 h-2 rounded-full bg-[var(--accent-burdeo)]" />
@@ -66,7 +66,7 @@ export default function Home() {
               </span>
             </div>
 
-            <div className="indie-card p-8 md:p-12 bg-[var(--bg-surface)] border-[var(--border-strong)] rounded-2xl relative overflow-hidden">
+            <div className="indie-card p-8 md:p-12 pt-10 md:pt-14 bg-[var(--bg-surface)] border-[var(--border-strong)] rounded-2xl relative overflow-hidden">
               {/* Subtle accent bar at top */}
               <div className="absolute top-0 left-0 right-0 h-1 bg-[var(--accent-burdeo)]" />
 
@@ -92,7 +92,7 @@ export default function Home() {
                   </Link>
                 </h2>
 
-                <p className="text-base sm:text-lg text-[var(--text-secondary)] font-serif leading-relaxed mb-8">
+                <p className="text-base sm:text-lg text-[var(--text-secondary)] font-serif leading-relaxed mb-6">
                   {featured.excerpt}
                 </p>
 
@@ -126,7 +126,7 @@ export default function Home() {
             {/* Historias - Burdeo */}
             <Link
               href="/historias"
-              className="indie-card indie-card-interactive p-7 flex flex-col justify-between group rounded-2xl border-t-4 border-t-[var(--accent-burdeo)]"
+              className="indie-card indie-card-interactive p-7 flex flex-col justify-between group rounded-2xl border-t-4 border-t-[var(--accent-burdeo)] min-h-[200px]"
             >
               <div>
                 <div className="w-10 h-10 rounded-xl bg-[var(--cat-historia-bg)] border border-[var(--cat-historia-border)] flex items-center justify-center text-[var(--cat-historia)] mb-5 text-base font-serif font-bold">
@@ -139,7 +139,7 @@ export default function Home() {
                   Relatos estructurados, dramas y narraciones de largo aliento.
                 </p>
               </div>
-              <span className="mt-8 text-xs font-medium text-[var(--cat-historia)] inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+              <span className="mt-6 text-xs font-medium text-[var(--cat-historia)] inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                 Ver historias →
               </span>
             </Link>
@@ -147,7 +147,7 @@ export default function Home() {
             {/* Cuentos - Cactus */}
             <Link
               href="/cuentos"
-              className="indie-card indie-card-interactive p-7 flex flex-col justify-between group rounded-2xl border-t-4 border-t-[var(--accent-cactus)]"
+              className="indie-card indie-card-interactive p-7 flex flex-col justify-between group rounded-2xl border-t-4 border-t-[var(--accent-cactus)] min-h-[200px]"
             >
               <div>
                 <div className="w-10 h-10 rounded-xl bg-[var(--cat-cuento-bg)] border border-[var(--cat-cuento-border)] flex items-center justify-center text-[var(--cat-cuento)] mb-5 text-base font-serif font-bold">
@@ -160,7 +160,7 @@ export default function Home() {
                   Ficciones breves, estampas e instantes capturados para leer en minutos.
                 </p>
               </div>
-              <span className="mt-8 text-xs font-medium text-[var(--cat-cuento)] inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+              <span className="mt-6 text-xs font-medium text-[var(--cat-cuento)] inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                 Ver cuentos →
               </span>
             </Link>
@@ -168,7 +168,7 @@ export default function Home() {
             {/* Novelas - Navy */}
             <Link
               href="/novelas"
-              className="indie-card indie-card-interactive p-7 flex flex-col justify-between group rounded-2xl border-t-4 border-t-[var(--accent-navy)]"
+              className="indie-card indie-card-interactive p-7 flex flex-col justify-between group rounded-2xl border-t-4 border-t-[var(--accent-navy)] min-h-[200px]"
             >
               <div>
                 <div className="w-10 h-10 rounded-xl bg-[var(--cat-novela-bg)] border border-[var(--cat-novela-border)] flex items-center justify-center text-[var(--cat-novela)] mb-5 text-base font-serif font-bold">
@@ -181,7 +181,7 @@ export default function Home() {
                   Obras mayores por entregas o manuscritos por capítulos continuos.
                 </p>
               </div>
-              <span className="mt-8 text-xs font-medium text-[var(--cat-novela)] inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+              <span className="mt-6 text-xs font-medium text-[var(--cat-novela)] inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                 Ver novelas →
               </span>
             </Link>
@@ -189,7 +189,7 @@ export default function Home() {
             {/* Blog - Ochre */}
             <Link
               href="/blog"
-              className="indie-card indie-card-interactive p-7 flex flex-col justify-between group rounded-2xl border-t-4 border-t-[var(--accent-ochre)]"
+              className="indie-card indie-card-interactive p-7 flex flex-col justify-between group rounded-2xl border-t-4 border-t-[var(--accent-ochre)] min-h-[200px]"
             >
               <div>
                 <div className="w-10 h-10 rounded-xl bg-[var(--cat-blog-bg)] border border-[var(--cat-blog-border)] flex items-center justify-center text-[var(--cat-blog)] mb-5 text-base font-serif font-bold">
@@ -202,7 +202,7 @@ export default function Home() {
                   Apuntes sobre escritura, notas al margen y divagaciones de paso.
                 </p>
               </div>
-              <span className="mt-8 text-xs font-medium text-[var(--cat-blog)] inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+              <span className="mt-6 text-xs font-medium text-[var(--cat-blog)] inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                 Ver entradas →
               </span>
             </Link>
