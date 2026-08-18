@@ -52,9 +52,9 @@ export default function Home() {
 
       {/* Featured Read Section */}
       {featured && !isLoading && (
-        <section className="py-16 md:py-20 border-b border-[var(--border-subtle)] bg-[var(--bg-surface)]/50">
+        <section className="py-20 md:py-24 border-b border-[var(--border-subtle)] bg-[var(--bg-surface)]/50">
           <div className="container">
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-10">
               <div className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-burdeo)]" />
                 <span className="text-xs uppercase tracking-wider font-semibold text-[var(--text-secondary)]">
@@ -66,12 +66,12 @@ export default function Home() {
               </span>
             </div>
 
-            <div className="indie-card p-8 md:p-12 pt-10 md:pt-14 bg-[var(--bg-surface)] border-[var(--border-strong)] rounded-2xl relative overflow-hidden">
+            <div className="indie-card px-8 pb-8 pt-12 md:px-14 md:pb-12 md:pt-16 bg-[var(--bg-surface)] border-[var(--border-strong)] rounded-2xl relative overflow-hidden">
               {/* Subtle accent bar at top */}
               <div className="absolute top-0 left-0 right-0 h-1 bg-[var(--accent-burdeo)]" />
 
               <div className="max-w-3xl">
-                <div className="flex items-center gap-3 text-xs text-[var(--text-muted)] mb-3">
+                <div className="flex items-center gap-3 text-xs text-[var(--text-muted)] mb-5">
                   <span>
                     {new Date(featured.publishedAt).toLocaleDateString('es-ES', {
                       year: 'numeric',
@@ -111,9 +111,9 @@ export default function Home() {
       )}
 
       {/* Categories Bento Grid */}
-      <section className="py-16 md:py-24 border-b border-[var(--border-subtle)]">
+      <section className="py-20 md:py-28 border-b border-[var(--border-subtle)]">
         <div className="container">
-          <div className="mb-12">
+          <div className="mb-14">
             <span className="text-xs uppercase tracking-wider font-semibold text-[var(--text-muted)] block mb-2">
               Colecciones
             </span>
@@ -122,11 +122,11 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
             {/* Historias - Burdeo */}
             <Link
               href="/historias"
-              className="indie-card indie-card-interactive p-7 flex flex-col justify-between group rounded-2xl border-t-4 border-t-[var(--accent-burdeo)] min-h-[200px]"
+              className="indie-card indie-card-interactive p-8 flex flex-col justify-between group rounded-2xl border-t-4 border-t-[var(--accent-burdeo)] min-h-[220px]"
             >
               <div>
                 <div className="w-10 h-10 rounded-xl bg-[var(--cat-historia-bg)] border border-[var(--cat-historia-border)] flex items-center justify-center text-[var(--cat-historia)] mb-5 text-base font-serif font-bold">
@@ -147,7 +147,7 @@ export default function Home() {
             {/* Cuentos - Cactus */}
             <Link
               href="/cuentos"
-              className="indie-card indie-card-interactive p-7 flex flex-col justify-between group rounded-2xl border-t-4 border-t-[var(--accent-cactus)] min-h-[200px]"
+              className="indie-card indie-card-interactive p-8 flex flex-col justify-between group rounded-2xl border-t-4 border-t-[var(--accent-cactus)] min-h-[220px]"
             >
               <div>
                 <div className="w-10 h-10 rounded-xl bg-[var(--cat-cuento-bg)] border border-[var(--cat-cuento-border)] flex items-center justify-center text-[var(--cat-cuento)] mb-5 text-base font-serif font-bold">
@@ -168,7 +168,7 @@ export default function Home() {
             {/* Novelas - Navy */}
             <Link
               href="/novelas"
-              className="indie-card indie-card-interactive p-7 flex flex-col justify-between group rounded-2xl border-t-4 border-t-[var(--accent-navy)] min-h-[200px]"
+              className="indie-card indie-card-interactive p-8 flex flex-col justify-between group rounded-2xl border-t-4 border-t-[var(--accent-navy)] min-h-[220px]"
             >
               <div>
                 <div className="w-10 h-10 rounded-xl bg-[var(--cat-novela-bg)] border border-[var(--cat-novela-border)] flex items-center justify-center text-[var(--cat-novela)] mb-5 text-base font-serif font-bold">
@@ -189,7 +189,7 @@ export default function Home() {
             {/* Blog - Ochre */}
             <Link
               href="/blog"
-              className="indie-card indie-card-interactive p-7 flex flex-col justify-between group rounded-2xl border-t-4 border-t-[var(--accent-ochre)] min-h-[200px]"
+              className="indie-card indie-card-interactive p-8 flex flex-col justify-between group rounded-2xl border-t-4 border-t-[var(--accent-ochre)] min-h-[220px]"
             >
               <div>
                 <div className="w-10 h-10 rounded-xl bg-[var(--cat-blog-bg)] border border-[var(--cat-blog-border)] flex items-center justify-center text-[var(--cat-blog)] mb-5 text-base font-serif font-bold">
@@ -211,9 +211,9 @@ export default function Home() {
       </section>
 
       {/* Recent Works Grid */}
-      <section className="py-16 md:py-24">
+      <section className="py-20 md:py-28">
         <div className="container">
-          <div className="flex items-center justify-between mb-10">
+          <div className="flex items-center justify-between mb-12">
             <div>
               <span className="text-xs uppercase tracking-wider font-semibold text-[var(--text-muted)] block mb-1">
                 Catálogo
