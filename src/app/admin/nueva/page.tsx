@@ -8,50 +8,52 @@ import { Publication } from '@/lib/types';
 import { createPublication } from '@/lib/firebase-publications';
 
 export default function NewPublicationPage() {
-    const router = useRouter();
-    const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleSubmit = async (data: Omit<Publication, 'id'>) => {
-        setIsSubmitting(true);
+  const handleSubmit = async (data: Omit<Publication, 'id'>) => {
+    setIsSubmitting(true);
 
-        try {
-            // Create publication as draft (with empty content)
-            const id = await createPublication({
-                ...data,
-                content: '', // Empty content, will be filled in editor
-            });
-            // Redirect to editor page
-            router.push(`/admin/editar/${id}/editor`);
-        } catch (error) {
-            console.error('Error:', error);
-            setIsSubmitting(false);
-        }
-    };
+    try {
+      const id = await createPublication({
+        ...data,
+        content: '',
+      });
+      router.push(`/admin/editar/${id}/editor`);
+    } catch (error) {
+      console.error('Error creating publication:', error);
+      setIsSubmitting(false);
+    }
+  };
 
-    const handleCancel = () => {
-        router.push('/admin');
-    };
+  const handleCancel = () => {
+    router.push('/admin');
+  };
 
-    return (
-        <AdminLayout>
-            <div className="animate-fadeIn max-w-4xl">
-                <div className="mb-8">
-                    <h1 className="text-base md:text-lg font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-cyan)] neon-glow-cyan">
-                        Nueva Publicación
-                    </h1>
-                    <p className="text-sm text-[var(--text-muted)] mt-2">
-                        Paso 1: Completa los datos básicos
-                    </p>
-                </div>
+  return (
+    <AdminLayout>
+      <div className="animate-fade-in max-w-3xl mx-auto">
+        <div className="mb-8">
+          <span className="text-xs text-[var(--text-muted)] font-mono uppercase tracking-wider block mb-1">
+            Paso 1 de 2 • Ficha Técnica
+          </span>
+          <h1 className="text-2xl font-serif font-bold text-[var(--text-primary)]">
+            Nueva Obra o Entrada
+          </h1>
+          <p className="text-xs text-[var(--text-secondary)] mt-1">
+            Configura los datos iniciales. Podrás redactar todo el texto en el editor en el siguiente paso.
+          </p>
+        </div>
 
-                <div className="card p-6 md:p-8">
-                    <PublicationForm
-                        onSubmit={handleSubmit}
-                        onCancel={handleCancel}
-                        isSubmitting={isSubmitting}
-                    />
-                </div>
-            </div>
-        </AdminLayout>
-    );
+        <div className="indie-card p-6 md:p-8">
+          <PublicationForm
+            onSubmit={handleSubmit}
+            onCancel={handleCancel}
+            isSubmitting={isSubmitting}
+            submitLabel="Crear y pasar al editor →"
+          />
+        </div>
+      </div>
+    </AdminLayout>
+  );
 }

@@ -9,106 +9,104 @@ import { getPublicationById, updatePublication } from '@/lib/firebase-publicatio
 import Link from 'next/link';
 
 interface PageProps {
-    params: Promise<{ id: string }>;
+  params: Promise<{ id: string }>;
 }
 
 export default function EditPublicationPage({ params }: PageProps) {
-    const { id } = use(params);
-    const router = useRouter();
-    const [publication, setPublication] = useState<Publication | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [notFound, setNotFound] = useState(false);
+  const { id } = use(params);
+  const router = useRouter();
+  const [publication, setPublication] = useState<Publication | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [notFound, setNotFound] = useState(false);
 
-    useEffect(() => {
-        getPublicationById(id).then((pub) => {
-            if (pub) {
-                setPublication(pub);
-            } else {
-                setNotFound(true);
-            }
-            setIsLoading(false);
-        });
-    }, [id]);
+  useEffect(() => {
+    getPublicationById(id).then((pub) => {
+      if (pub) {
+        setPublication(pub);
+      } else {
+        setNotFound(true);
+      }
+      setIsLoading(false);
+    });
+  }, [id]);
 
-    const handleSubmit = async (data: Omit<Publication, 'id'>) => {
-        setIsSubmitting(true);
+  const handleSubmit = async (data: Omit<Publication, 'id'>) => {
+    setIsSubmitting(true);
 
-        try {
-            await updatePublication(id, data);
-            // Redirect to editor to continue writing
-            router.push(`/admin/editar/${id}/editor`);
-        } catch (error) {
-            console.error('Error:', error);
-            setIsSubmitting(false);
-        }
-    };
-
-    const handleCancel = () => {
-        router.push('/admin');
-    };
-
-    if (isLoading) {
-        return (
-            <AdminLayout>
-                <div className="flex items-center justify-center min-h-[50vh]">
-                    <div className="text-[var(--arcade-cyan)] font-[family-name:var(--font-pixel)] text-sm flicker">
-                        Cargando...
-                    </div>
-                </div>
-            </AdminLayout>
-        );
+    try {
+      await updatePublication(id, data);
+      router.push(`/admin/editar/${id}/editor`);
+    } catch (error) {
+      console.error('Error updating publication metadata:', error);
+      setIsSubmitting(false);
     }
+  };
 
-    if (notFound) {
-        return (
-            <AdminLayout>
-                <div className="card p-12 text-center max-w-md mx-auto">
-                    <h2 className="text-base font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-red)] mb-4">
-                        No existe
-                    </h2>
-                    <button onClick={handleCancel} className="btn-primary">
-                        ◀ Volver
-                    </button>
-                </div>
-            </AdminLayout>
-        );
-    }
+  const handleCancel = () => {
+    router.push('/admin');
+  };
 
+  if (isLoading) {
     return (
-        <AdminLayout>
-            <div className="animate-fadeIn max-w-4xl">
-                <div className="mb-8">
-                    <h1 className="text-base md:text-lg font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-cyan)] neon-glow-cyan">
-                        Editar Metadatos
-                    </h1>
-                    <p className="text-sm text-[var(--text-muted)] mt-2">
-                        Paso 1: Actualiza los datos básicos
-                    </p>
-
-                    {/* Quick link to editor */}
-                    {publication && (
-                        <Link
-                            href={`/admin/editar/${id}/editor`}
-                            className="inline-block mt-3 text-xs font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-magenta)] hover:text-[var(--arcade-cyan)] transition-colors"
-                        >
-                            ▶ Ir al editor de contenido
-                        </Link>
-                    )}
-                </div>
-
-                <div className="card p-6 md:p-8">
-                    {publication && (
-                        <PublicationForm
-                            publication={publication}
-                            onSubmit={handleSubmit}
-                            onCancel={handleCancel}
-                            isSubmitting={isSubmitting}
-                            submitLabel="Guardar y continuar ▶"
-                        />
-                    )}
-                </div>
-            </div>
-        </AdminLayout>
+      <AdminLayout>
+        <div className="flex flex-col items-center justify-center min-h-[40vh] gap-3">
+          <div className="w-8 h-8 rounded-full border-2 border-[var(--border-strong)] border-t-[var(--accent-burdeo)] animate-spin" />
+          <span className="text-xs text-[var(--text-muted)] font-mono">Cargando ficha...</span>
+        </div>
+      </AdminLayout>
     );
+  }
+
+  if (notFound || !publication) {
+    return (
+      <AdminLayout>
+        <div className="indie-card p-10 text-center max-w-md mx-auto">
+          <h2 className="text-lg font-serif font-bold text-[var(--text-primary)] mb-3">
+            Obra no encontrada
+          </h2>
+          <p className="text-xs text-[var(--text-muted)] mb-6">
+            El identificador proporcionado no coincide con ningún registro.
+          </p>
+          <button onClick={handleCancel} className="btn-primary">
+            Volver a manuscritos
+          </button>
+        </div>
+      </AdminLayout>
+    );
+  }
+
+  return (
+    <AdminLayout>
+      <div className="animate-fade-in max-w-3xl mx-auto">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+          <div>
+            <span className="text-xs text-[var(--text-muted)] font-mono uppercase tracking-wider block mb-1">
+              Metadatos y Clasificación
+            </span>
+            <h1 className="text-2xl font-serif font-bold text-[var(--text-primary)]">
+              Editar Ficha Técnica
+            </h1>
+          </div>
+
+          <Link
+            href={`/admin/editar/${id}/editor`}
+            className="btn-secondary text-xs"
+          >
+            Ir al editor de texto →
+          </Link>
+        </div>
+
+        <div className="indie-card p-6 md:p-8">
+          <PublicationForm
+            publication={publication}
+            onSubmit={handleSubmit}
+            onCancel={handleCancel}
+            isSubmitting={isSubmitting}
+            submitLabel="Guardar metadatos y editar texto →"
+          />
+        </div>
+      </div>
+    </AdminLayout>
+  );
 }

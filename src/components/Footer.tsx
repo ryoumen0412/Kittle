@@ -2,98 +2,93 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useReaderPreferences } from './ReaderPreferencesProvider';
 
 export default function Footer() {
-    const [currentYear, setCurrentYear] = useState(2024);
+  const [currentYear, setCurrentYear] = useState(2024);
+  const { isZenMode } = useReaderPreferences();
 
-    useEffect(() => {
-        setCurrentYear(new Date().getFullYear());
-    }, []);
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
 
-    return (
-        <footer className="glass-dark mt-auto border-t-2 border-[var(--arcade-cyan)]">
-            <div className="container" style={{ paddingTop: '3rem', paddingBottom: '2rem' }}>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {/* Brand */}
-                    <div>
-                        <Link
-                            href="/"
-                            className="text-lg font-[family-name:var(--font-pixel)] gradient-text tracking-wide"
-                        >
-                            KITTLE
-                        </Link>
-                        <p className="mt-4 text-sm text-[var(--text-muted)] max-w-xs leading-relaxed">
-                            Un lugar donde guardo lo que escribo.
-                            Nada más, nada menos.
-                        </p>
-                    </div>
+  if (isZenMode) {
+    return null;
+  }
 
-                    {/* Navigation */}
-                    <div>
-                        <h4 className="text-xs font-[family-name:var(--font-pixel)] text-[var(--arcade-cyan)] uppercase tracking-wider mb-4">
-                            Contenido
-                        </h4>
-                        <ul className="space-y-3">
-                            <li>
-                                <Link
-                                    href="/historias"
-                                    className="text-sm text-[var(--text-muted)] hover:text-[var(--arcade-magenta)] hover:pl-2 transition-all duration-200"
-                                >
-                                    → Historias
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href="/cuentos"
-                                    className="text-sm text-[var(--text-muted)] hover:text-[var(--arcade-magenta)] hover:pl-2 transition-all duration-200"
-                                >
-                                    → Cuentos
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href="/novelas"
-                                    className="text-sm text-[var(--text-muted)] hover:text-[var(--arcade-magenta)] hover:pl-2 transition-all duration-200"
-                                >
-                                    → Novelas
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href="/blog"
-                                    className="text-sm text-[var(--text-muted)] hover:text-[var(--arcade-magenta)] hover:pl-2 transition-all duration-200"
-                                >
-                                    → Blog
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* Info */}
-                    <div>
-                        <h4 className="text-xs font-[family-name:var(--font-pixel)] text-[var(--arcade-cyan)] uppercase tracking-wider mb-4">
-                            Info
-                        </h4>
-                        <ul className="space-y-3">
-                            <li>
-                                <Link
-                                    href="/acerca"
-                                    className="text-sm text-[var(--text-muted)] hover:text-[var(--arcade-magenta)] hover:pl-2 transition-all duration-200"
-                                >
-                                    → Sobre mí
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                {/* Copyright */}
-                <div className="mt-10 pt-8 border-t border-[var(--navy-700)]">
-                    <p className="text-center text-xs font-[family-name:var(--font-pixel)] text-[var(--text-muted)] tracking-wide">
-                        © {currentYear} <span className="text-[var(--arcade-yellow)]">KITTLE</span> <span className="text-[var(--arcade-cyan)]">•</span> PRESS START
-                    </p>
-                </div>
+  return (
+    <footer className="mt-auto border-t border-[var(--border-subtle)] bg-[var(--bg-surface)] py-12 md:py-16 text-xs transition-colors">
+      <div className="container">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
+          {/* Manifesto / Brand */}
+          <div className="md:col-span-2 space-y-3">
+            <div className="flex items-center gap-2">
+              <span className="font-serif font-bold text-lg text-[var(--text-primary)]">Kittle</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-burdeo)]" />
             </div>
-        </footer>
-    );
+            <p className="text-sm text-[var(--text-secondary)] font-serif italic max-w-md leading-relaxed">
+              «Escribir para fijar lo efímero. Leer para detener el ruido del mundo.»
+            </p>
+            <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+              Un rincón digital artesanal para narrativas extensas, relatos breves y apuntes de paso. Sin algoritmos ni notificaciones.
+            </p>
+          </div>
+
+          {/* Catalog Links */}
+          <div>
+            <h4 className="font-semibold text-[var(--text-primary)] uppercase tracking-wider text-[11px] mb-3">
+              Catálogo
+            </h4>
+            <ul className="space-y-2 text-[var(--text-secondary)]">
+              <li>
+                <Link href="/historias" className="hover:text-[var(--accent-burdeo)] transition-colors">
+                  Historias
+                </Link>
+              </li>
+              <li>
+                <Link href="/cuentos" className="hover:text-[var(--accent-cactus)] transition-colors">
+                  Cuentos
+                </Link>
+              </li>
+              <li>
+                <Link href="/novelas" className="hover:text-[var(--accent-navy)] transition-colors">
+                  Novelas
+                </Link>
+              </li>
+              <li>
+                <Link href="/blog" className="hover:text-[var(--accent-ochre)] transition-colors">
+                  Diario & Blog
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Info & Access */}
+          <div>
+            <h4 className="font-semibold text-[var(--text-primary)] uppercase tracking-wider text-[11px] mb-3">
+              Bitácora
+            </h4>
+            <ul className="space-y-2 text-[var(--text-secondary)]">
+              <li>
+                <Link href="/acerca" className="hover:text-[var(--text-primary)] transition-colors">
+                  Acerca del autor
+                </Link>
+              </li>
+              <li>
+                <Link href="/admin" className="hover:text-[var(--text-primary)] transition-colors text-[var(--text-muted)] font-mono">
+                  Acceso de autor →
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="mt-12 pt-6 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-3 text-[var(--text-muted)] font-mono text-[11px]">
+          <p>© {currentYear} Kittle. Lectura y escritura independiente.</p>
+          <p>Tipografía optimizada para lectura</p>
+        </div>
+      </div>
+    </footer>
+  );
 }

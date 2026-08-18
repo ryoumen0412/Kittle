@@ -4,164 +4,206 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { Publication, categoryLabels } from '@/lib/types';
 import { getPublicationBySlug } from '@/lib/firebase-publications';
-import StarRating from '@/components/StarRating';
+import ReaderToolbar from '@/components/ReaderToolbar';
+import PaginatedReader from '@/components/PaginatedReader';
+import { useReaderPreferences } from '@/components/ReaderPreferencesProvider';
 import Link from 'next/link';
 
 export default function PublicationPage() {
-    const params = useParams();
-    const slug = params.slug as string;
+  const params = useParams();
+  const slug = params.slug as string;
 
-    const [publication, setPublication] = useState<Publication | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [notFound, setNotFound] = useState(false);
+  const [publication, setPublication] = useState<Publication | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
-    useEffect(() => {
-        getPublicationBySlug(slug).then((pub) => {
-            if (pub) {
-                setPublication(pub);
-            } else {
-                setNotFound(true);
-            }
-            setIsLoading(false);
-        });
-    }, [slug]);
+  const {
+    readingMode,
+    fontSize,
+    fontFamily,
+    lineHeight,
+    textAlign,
+    contentWidth,
+    isZenMode,
+  } = useReaderPreferences();
 
-    if (isLoading) {
-        return (
-            <div className="min-h-[60vh] flex items-center justify-center">
-                <div className="text-[var(--arcade-cyan)] font-[family-name:var(--font-pixel)] text-sm flicker">
-                    Cargando...
-                </div>
-            </div>
-        );
-    }
-
-    if (notFound || !publication) {
-        return (
-            <div className="animate-fadeIn min-h-[60vh] flex items-center justify-center">
-                <div className="container text-center">
-                    <h1 className="text-4xl md:text-6xl font-[family-name:var(--font-pixel)] gradient-text mb-4 glitch-text">
-                        404
-                    </h1>
-                    <h2 className="text-lg md:text-xl font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-red)] mb-4">
-                        No existe
-                    </h2>
-                    <p className="text-[var(--text-secondary)] mb-8 max-w-md mx-auto">
-                        Quizá estuvo aquí. Quizá nunca. Ya no importa.
-                    </p>
-                    <Link href="/" className="btn-primary">
-                        ▶ Volver
-                    </Link>
-                </div>
-            </div>
-        );
-    }
-
-    const formattedDate = new Date(publication.publishedAt).toLocaleDateString('es-ES', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
+  useEffect(() => {
+    getPublicationBySlug(slug).then((pub) => {
+      if (pub) {
+        setPublication(pub);
+      } else {
+        setNotFound(true);
+      }
+      setIsLoading(false);
     });
+  }, [slug]);
 
-    const categoryRoutes: Record<string, string> = {
-        historia: '/historias',
-        cuento: '/cuentos',
-        novela: '/novelas',
-        blog: '/blog',
-    };
-
-    const backLink = categoryRoutes[publication.category] || '/';
-
+  if (isLoading) {
     return (
-        <div className="animate-fadeIn">
-            <article className="py-8 md:py-12 lg:py-16">
-                <div className="container max-w-4xl">
-                    {/* Back Link */}
-                    <Link
-                        href={backLink}
-                        className="inline-flex items-center text-xs font-[family-name:var(--font-pixel)] uppercase text-[var(--text-muted)] hover:text-[var(--arcade-cyan)] transition-colors mb-8 group"
-                    >
-                        <svg
-                            className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="square"
-                            strokeLinejoin="miter"
-                        >
-                            <line x1="19" y1="12" x2="5" y2="12" />
-                            <polyline points="12 19 5 12 12 5" />
-                        </svg>
-                        Volver
-                    </Link>
-
-                    {/* Header */}
-                    <header className="mb-8 md:mb-12">
-                        <span className={`badge badge-${publication.category} mb-4`}>
-                            {categoryLabels[publication.category]}
-                        </span>
-
-                        <h1 className="text-base md:text-lg lg:text-xl font-[family-name:var(--font-pixel)] uppercase text-[var(--text-primary)] mb-6 leading-relaxed">
-                            {publication.title}
-                        </h1>
-
-                        <div className="flex flex-wrap items-center gap-4 text-xs text-[var(--text-muted)] mb-6">
-                            <span className="text-[var(--arcade-cyan)]">{publication.author}</span>
-                            <span className="text-[var(--arcade-magenta)]">•</span>
-                            <span>{formattedDate}</span>
-                            <span className="text-[var(--arcade-magenta)]">•</span>
-                            <span>{publication.readingTime} min</span>
-                        </div>
-
-                        <p className="text-base text-[var(--text-secondary)] leading-relaxed border-l-4 border-[var(--arcade-magenta)] pl-4 bg-[rgba(255,0,255,0.05)]">
-                            {publication.excerpt}
-                        </p>
-                    </header>
-
-                    {/* Content */}
-                    <div className="card p-6 md:p-10 lg:p-12 mb-8 md:mb-12">
-                        {/* Check if content is HTML (from rich editor) or plain text (legacy) */}
-                        {publication.content.includes('<') ? (
-                            <div
-                                className="publication-content"
-                                dangerouslySetInnerHTML={{ __html: publication.content }}
-                            />
-                        ) : (
-                            <div className="publication-content">
-                                {publication.content.split('\n\n').map((paragraph, index) => (
-                                    <p key={index}>
-                                        {paragraph.trim()}
-                                    </p>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Rating Section */}
-                    <section className="card p-6 md:p-8">
-                        <h2 className="text-sm font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-yellow)] mb-4">
-                            Puntuar
-                        </h2>
-                        <p className="text-sm text-[var(--text-muted)] mb-6">
-                            Si llegaste hasta aquí, puedes dejar una opinión.
-                        </p>
-                        <StarRating publicationId={publication.id} readonly={false} size="lg" showCount={true} />
-                    </section>
-
-                    {/* Navigation */}
-                    <div className="mt-8 md:mt-12 pt-8 border-t border-[var(--navy-700)]">
-                        <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-                            <Link href={backLink} className="btn-secondary w-full sm:w-auto text-center">
-                                Ver más
-                            </Link>
-                            <Link href="/" className="btn-primary w-full sm:w-auto text-center">
-                                ▶ Inicio
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </div>
+      <div className="min-h-[60vh] flex flex-col items-center justify-center gap-3">
+        <div className="w-8 h-8 rounded-full border-2 border-[var(--border-strong)] border-t-[var(--accent-burdeo)] animate-spin" />
+        <span className="text-xs text-[var(--text-muted)] font-mono">Abriendo manuscrito...</span>
+      </div>
     );
+  }
+
+  if (notFound || !publication) {
+    return (
+      <div className="animate-fade-in min-h-[60vh] flex items-center justify-center py-16">
+        <div className="container max-w-md text-center">
+          <span className="text-4xl font-serif block mb-3 text-[var(--accent-burdeo)]">404</span>
+          <h1 className="text-xl font-serif font-semibold text-[var(--text-primary)] mb-3">
+            Página no encontrada
+          </h1>
+          <p className="text-sm text-[var(--text-secondary)] mb-8 leading-relaxed">
+            El texto que buscas no existe o ha sido trasladado a otro rincón.
+          </p>
+          <Link href="/" className="btn-primary">
+            ← Volver al inicio
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const formattedDate = new Date(publication.publishedAt).toLocaleDateString('es-ES', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
+  const categoryRoutes: Record<string, string> = {
+    historia: '/historias',
+    cuento: '/cuentos',
+    novela: '/novelas',
+    blog: '/blog',
+  };
+
+  const backLink = categoryRoutes[publication.category] || '/';
+
+  const widthClasses = {
+    narrow: 'max-w-[62ch]',
+    medium: 'max-w-[74ch]',
+    wide: 'max-w-[88ch]',
+  }[contentWidth];
+
+  const fontClass = {
+    serif: 'font-serif',
+    sans: 'font-sans',
+    mono: 'font-mono',
+  }[fontFamily];
+
+  const lineHeightValue = {
+    normal: 1.6,
+    relaxed: 1.85,
+    loose: 2.1,
+  }[lineHeight];
+
+  return (
+    <div className={`animate-fade-in ${isZenMode ? 'zen-active' : ''}`}>
+      <article className="py-8 md:py-14">
+        <div className="container max-w-4xl">
+          {/* Top back navigation (hidden in Zen mode) */}
+          {!isZenMode && (
+            <div className="mb-6">
+              <Link
+                href={backLink}
+                className="inline-flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors group font-mono"
+              >
+                <span className="group-hover:-translate-x-0.5 transition-transform">←</span>
+                <span>Volver a {categoryLabels[publication.category]}</span>
+              </Link>
+            </div>
+          )}
+
+          {/* Reader Header */}
+          <header className={`mb-8 ${isZenMode ? 'mt-4' : ''}`}>
+            <div className="flex items-center gap-2.5 mb-4">
+              <span className={`badge badge-${publication.category}`}>
+                {categoryLabels[publication.category]}
+              </span>
+              <span className="text-xs text-[var(--text-muted)]">•</span>
+              <span className="text-xs text-[var(--text-muted)] font-mono">{formattedDate}</span>
+            </div>
+
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-serif font-bold text-[var(--text-primary)] leading-tight mb-4 tracking-tight">
+              {publication.title}
+            </h1>
+
+            <div className="flex items-center justify-between flex-wrap gap-3 pb-6 border-b border-[var(--border-subtle)] text-xs text-[var(--text-secondary)]">
+              <div className="flex items-center gap-2">
+                <span>Por</span>
+                <span className="font-semibold text-[var(--text-primary)]">{publication.author}</span>
+              </div>
+              <div className="flex items-center gap-3 text-[var(--text-muted)] font-mono">
+                <span>{publication.readingTime} min de lectura</span>
+              </div>
+            </div>
+
+            {/* Excerpt / Lead */}
+            {publication.excerpt && (
+              <div className="mt-6 p-4 md:p-5 rounded-lg bg-[var(--bg-surface)] border-l-2 border-[var(--accent-burdeo)]">
+                <p className="text-sm md:text-base font-serif italic text-[var(--text-secondary)] leading-relaxed">
+                  {publication.excerpt}
+                </p>
+              </div>
+            )}
+          </header>
+
+          {/* Reader Toolbar (Sticky controls & customization) */}
+          <ReaderToolbar readingTimeMinutes={publication.readingTime} />
+
+          {/* Reader Content Body */}
+          {readingMode === 'paginated' ? (
+            <div className="p-6 md:p-10 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] shadow-subtle my-6">
+              <PaginatedReader content={publication.content} title={publication.title} />
+            </div>
+          ) : (
+            <div className={`mx-auto w-full ${widthClasses} my-8`}>
+              <div
+                style={{
+                  fontSize: `${fontSize}px`,
+                  lineHeight: lineHeightValue,
+                  textAlign: textAlign === 'justify' ? 'justify' : 'left',
+                }}
+              >
+                {publication.content.includes('<') ? (
+                  <div
+                    className={`reader-prose ${fontClass}`}
+                    dangerouslySetInnerHTML={{ __html: publication.content }}
+                  />
+                ) : (
+                  <div className={`reader-prose ${fontClass}`}>
+                    {publication.content.split('\n\n').map((paragraph, index) => (
+                      <p key={index}>{paragraph.trim()}</p>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* End of Publication Footer & Navigation */}
+          {!isZenMode && (
+            <footer className="mt-16 pt-8 border-t border-[var(--border-subtle)]">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="text-xs text-[var(--text-muted)]">
+                  Publicado por <strong className="text-[var(--text-primary)]">{publication.author}</strong> en{' '}
+                  <span className="capitalize">{categoryLabels[publication.category]}</span>.
+                </div>
+                <div className="flex items-center gap-3">
+                  <Link href={backLink} className="btn-secondary text-xs">
+                    Ver más {categoryLabels[publication.category].toLowerCase()}
+                  </Link>
+                  <Link href="/" className="btn-primary text-xs">
+                    Explorar todo
+                  </Link>
+                </div>
+              </div>
+            </footer>
+          )}
+        </div>
+      </article>
+    </div>
+  );
 }

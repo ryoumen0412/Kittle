@@ -14,14 +14,6 @@ export interface Publication {
   readingTime: number; // in minutes
 }
 
-export interface Rating {
-  publicationId: string;
-  ratings: number[]; // Array of individual ratings (1-5)
-}
-
-export interface RatingData {
-  [publicationId: string]: number[];
-}
 
 export const categoryLabels: Record<Category, string> = {
   historia: 'Historia',

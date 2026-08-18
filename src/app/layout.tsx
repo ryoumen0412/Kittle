@@ -1,27 +1,34 @@
 import type { Metadata } from "next";
-import { Inter, Press_Start_2P } from "next/font/google";
+import { Inter, Newsreader, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import PageTransition from "@/components/PageTransition";
+import { ReaderPreferencesProvider } from "@/components/ReaderPreferencesProvider";
 
 const inter = Inter({
-  variable: "--font-inter",
+  variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
 });
 
-const pixelFont = Press_Start_2P({
-  variable: "--font-pixel",
-  weight: "400",
+const newsreader = Newsreader({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  display: "swap",
+  style: ["normal", "italic"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Kittle - Historias, Cuentos y Novelas",
-  description: "Un espacio para compartir historias, cuentos y novelas. Donde las palabras cobran vida.",
-  keywords: ["historias", "cuentos", "novelas", "blog", "literatura", "escritura"],
+  title: "Kittle — Espacio de Lectura y Creación Literaria",
+  description: "Relatos, cuentos, novelas y reflexiones. Un rincón digital diseñado para la lectura sosegada y la escritura cuidada.",
+  keywords: ["historias", "cuentos", "novelas", "blog", "literatura", "escritura", "lectura"],
   icons: {
     icon: "/favicon.png",
     shortcut: "/favicon.png",
@@ -37,18 +44,18 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${pixelFont.variable} antialiased min-h-screen flex flex-col`}
+        className={`${inter.variable} ${newsreader.variable} ${jetbrainsMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        <Navigation />
-        <PageTransition>
-          <main className="flex-grow">
-            {children}
-          </main>
-        </PageTransition>
-        <Footer />
+        <ReaderPreferencesProvider>
+          <Navigation />
+          <PageTransition>
+            <main className="flex-grow">
+              {children}
+            </main>
+          </PageTransition>
+          <Footer />
+        </ReaderPreferencesProvider>
       </body>
     </html>
   );
 }
-
-

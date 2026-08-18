@@ -1,94 +1,100 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
-    title: 'Sobre mí - Kittle',
-    description: 'El autor detrás de esto.',
+  title: 'Acerca de Kittle — Manifiesto y Autor',
+  description: 'El espacio, la filosofía y el autor detrás de Kittle.',
 };
 
 export default function AcercaPage() {
-    return (
-        <div className="animate-fadeIn">
-            <section className="py-12 md:py-16 lg:py-20">
-                <div className="container max-w-4xl">
-                    {/* Header */}
-                    <div className="text-center mb-12 md:mb-16">
-                        <h1 className="text-lg md:text-xl lg:text-2xl font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-cyan)] mb-4 neon-glow-cyan">
-                            Sobre mí
-                        </h1>
-                        <p className="text-base text-[var(--text-secondary)]">
-                            No hay mucho que contar, pero aquí va
-                        </p>
-                    </div>
+  return (
+    <div className="animate-fade-in py-12 md:py-18">
+      <div className="container max-w-3xl">
+        {/* Header */}
+        <header className="mb-10 pb-8 border-b border-[var(--border-subtle)]">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-xs text-[var(--text-secondary)] font-mono mb-4">
+            <span>Nota de Autor</span>
+          </div>
+          <h1 className="text-3xl md:text-5xl font-serif font-bold text-[var(--text-primary)] mb-4 leading-tight">
+            Sobre este rincón y quien lo escribe
+          </h1>
+          <p className="text-base text-[var(--text-secondary)] font-serif leading-relaxed italic">
+            Un espacio concebido para la lentitud en tiempos de inmediatez.
+          </p>
+        </header>
 
-                    {/* Content */}
-                    <div className="card p-8 md:p-12">
-                        <div className="prose prose-invert max-w-none">
-                            <h2 className="text-base font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-magenta)] mb-4">
-                                Quién escribe esto
-                            </h2>
-                            <p className="text-[var(--text-secondary)] leading-relaxed mb-6">
-                                Escribo desde hace años. No porque crea que tengo algo especial que decir,
-                                sino porque es lo único que sé hacer medianamente bien. O eso me gusta pensar.
-                            </p>
+        {/* Story / Manifesto */}
+        <div className="space-y-8 text-[var(--text-primary)] font-serif text-base md:text-lg leading-relaxed">
+          <section className="space-y-4">
+            <h2 className="text-xl md:text-2xl font-bold font-serif text-[var(--text-primary)]">
+              El propósito
+            </h2>
+            <p className="text-[var(--text-secondary)]">
+              Kittle nació de una necesidad elemental: tener un refugio digital sobrio y libre de distracciones donde verter ficciones, relatos y apuntes sin la presión del algoritmo, el recuento de visitas o la urgencia del feed infinito.
+            </p>
+            <p className="text-[var(--text-secondary)]">
+              Aquí el texto es el protagonista. La tipografía, el aire entre los párrafos y la tranquilidad de una interfaz minimalista están pensadas para que cada historia se lea como quien abre un libro de tapa dura en una tarde tranquila.
+            </p>
+          </section>
 
-                            <p className="text-[var(--text-secondary)] leading-relaxed mb-8">
-                                Este sitio existe porque necesitaba un lugar donde tirar lo que escribo.
-                                Antes usaba carpetas en el escritorio. Esto es marginalmente mejor.
-                            </p>
+          <section className="space-y-4 pt-6 border-t border-[var(--border-subtle)]">
+            <h2 className="text-xl md:text-2xl font-bold font-serif text-[var(--text-primary)]">
+              Qué encontrarás aquí
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              <div className="indie-card p-5 border-l-3 border-l-[var(--accent-burdeo)]">
+                <h3 className="font-sans font-bold text-xs uppercase tracking-wider text-[var(--accent-burdeo)] mb-1">
+                  Historias
+                </h3>
+                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                  Narraciones con desarrollo amplio de personajes, conflicto y atmósfera.
+                </p>
+              </div>
 
-                            <h2 className="text-base font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-magenta)] mb-4">
-                                Qué hay aquí
-                            </h2>
+              <div className="indie-card p-5 border-l-3 border-l-[var(--accent-cactus)]">
+                <h3 className="font-sans font-bold text-xs uppercase tracking-wider text-[var(--accent-cactus)] mb-1">
+                  Cuentos
+                </h3>
+                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                  Piezas concisas donde cada palabra cuenta. Para lecturas de cinco a diez minutos.
+                </p>
+              </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                                <div className="p-4 border-2 border-[var(--neon-pink)] bg-[rgba(255,20,147,0.1)]">
-                                    <h3 className="text-sm font-[family-name:var(--font-pixel)] uppercase text-[var(--neon-pink)] mb-2">
-                                        Historias
-                                    </h3>
-                                    <p className="text-sm text-[var(--text-muted)]">
-                                        Cosas que pasan. A veces a personas, a veces a nadie en particular.
-                                    </p>
-                                </div>
+              <div className="indie-card p-5 border-l-3 border-l-[var(--accent-navy)]">
+                <h3 className="font-sans font-bold text-xs uppercase tracking-wider text-[var(--accent-navy)] mb-1">
+                  Novelas
+                </h3>
+                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                  Capítulos seriados y manuscritos extensos en constante evolución.
+                </p>
+              </div>
 
-                                <div className="p-4 border-2 border-[var(--arcade-orange)] bg-[rgba(255,102,0,0.1)]">
-                                    <h3 className="text-sm font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-orange)] mb-2">
-                                        Cuentos
-                                    </h3>
-                                    <p className="text-sm text-[var(--text-muted)]">
-                                        Lo mismo pero más corto. O con dragones. Depende del día.
-                                    </p>
-                                </div>
+              <div className="indie-card p-5 border-l-3 border-l-[var(--accent-ochre)]">
+                <h3 className="font-sans font-bold text-xs uppercase tracking-wider text-[var(--accent-ochre)] mb-1">
+                  Diario & Blog
+                </h3>
+                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                  Reflexiones sobre el proceso creativo, lecturas recomendadas y notas de viaje.
+                </p>
+              </div>
+            </div>
+          </section>
 
-                                <div className="p-4 border-2 border-[#b388ff] bg-[rgba(138,43,226,0.1)]">
-                                    <h3 className="text-sm font-[family-name:var(--font-pixel)] uppercase text-[#b388ff] mb-2">
-                                        Novelas
-                                    </h3>
-                                    <p className="text-sm text-[var(--text-muted)]">
-                                        Proyectos ambiciosos que probablemente nunca termine.
-                                    </p>
-                                </div>
-
-                                <div className="p-4 border-2 border-[var(--arcade-cyan)] bg-[rgba(0,255,255,0.1)]">
-                                    <h3 className="text-sm font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-cyan)] mb-2">
-                                        Blog
-                                    </h3>
-                                    <p className="text-sm text-[var(--text-muted)]">
-                                        Pensamientos sueltos sobre escribir. Y sobre no escribir.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <h2 className="text-base font-[family-name:var(--font-pixel)] uppercase text-[var(--arcade-magenta)] mb-4">
-                                Las estrellas
-                            </h2>
-                            <p className="text-[var(--text-secondary)] leading-relaxed">
-                                Puedes puntuar lo que leas. No cambia nada, pero me entero de que
-                                alguien pasó por aquí. A veces eso ayuda.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+          <section className="pt-6 border-t border-[var(--border-subtle)]">
+            <h2 className="text-xl md:text-2xl font-bold font-serif text-[var(--text-primary)] mb-3">
+              Una experiencia a tu medida
+            </h2>
+            <p className="text-[var(--text-secondary)] text-sm md:text-base leading-relaxed mb-6">
+              Cada lector tiene sus propios hábitos. Por eso, al entrar a cualquier lectura puedes elegir entre la lectura tradicional continua o el <strong>modo paginado estilo libro</strong>, cambiar el tamaño de letra, la tipografía y seleccionar ambientes cálidos como <em>Burdeo</em>, <em>Cactus</em>, o modos oscuros y claros con un solo toque.
+            </p>
+            <div className="flex items-center gap-3">
+              <Link href="/historias" className="btn-primary text-xs">
+                Comenzar a explorar obras →
+              </Link>
+            </div>
+          </section>
         </div>
-    );
+      </div>
+    </div>
+  );
 }

@@ -1,108 +1,151 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useReaderPreferences, SiteTheme } from './ReaderPreferencesProvider';
 
 const navItems = [
-    { href: '/', label: 'Inicio' },
-    { href: '/historias', label: 'Historias' },
-    { href: '/cuentos', label: 'Cuentos' },
-    { href: '/novelas', label: 'Novelas' },
-    { href: '/blog', label: 'Blog' },
-    { href: '/acerca', label: 'Acerca de' },
+  { href: '/', label: 'Portada' },
+  { href: '/historias', label: 'Historias' },
+  { href: '/cuentos', label: 'Cuentos' },
+  { href: '/novelas', label: 'Novelas' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/acerca', label: 'Acerca' },
 ];
 
 export default function Navigation() {
-    const pathname = usePathname();
+  const pathname = usePathname();
+  const { theme, setTheme, isZenMode } = useReaderPreferences();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-    return (
-        <nav className="glass-dark sticky top-0 z-50">
-            <div className="container">
-                <div className="flex items-center justify-between h-16 md:h-20">
-                    {/* Logo */}
+  // If in Zen mode, hide navbar completely for immersion
+  if (isZenMode) {
+    return null;
+  }
+
+  const themeIcons: Record<SiteTheme, string> = {
+    light: '☀️',
+    dark: '🌙',
+    sepia: '🍷',
+    cactus: '🌵',
+  };
+
+  const nextTheme: Record<SiteTheme, SiteTheme> = {
+    light: 'dark',
+    dark: 'sepia',
+    sepia: 'cactus',
+    cactus: 'light',
+  };
+
+  return (
+    <nav className="sticky top-0 z-50 border-b border-[var(--border-subtle)] bg-[var(--bg-base)]/85 backdrop-blur-md transition-colors">
+      <div className="container">
+        <div className="flex items-center justify-between h-16 md:h-18">
+          {/* Logo / Brand */}
+          <Link
+            href="/"
+            className="flex items-center gap-2 group text-decoration-none"
+          >
+            <span className="font-serif font-bold text-xl md:text-2xl tracking-tight text-[var(--text-primary)] group-hover:text-[var(--accent-burdeo)] transition-colors">
+              Kittle
+            </span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-burdeo)] inline-block mt-1" />
+          </Link>
+
+          {/* Desktop Navigation Links */}
+          <ul className="hidden md:flex items-center gap-1 lg:gap-2">
+            {navItems.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={`px-3 py-1.5 rounded-md text-xs font-medium tracking-wide transition-all ${
+                      isActive
+                        ? 'text-[var(--text-primary)] bg-[var(--bg-surface)] font-semibold'
+                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)]'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+
+          {/* Right Actions: Theme Toggle & Admin/Mobile */}
+          <div className="flex items-center gap-2">
+            {/* Theme Toggle Cycle */}
+            <button
+              onClick={() => setTheme(nextTheme[theme])}
+              className="p-2 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:bg-[var(--bg-elevated)] text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all flex items-center gap-1.5"
+              title={`Tema actual: ${theme}. Haz clic para cambiar.`}
+              aria-label="Cambiar tema"
+            >
+              <span className="text-sm">{themeIcons[theme]}</span>
+              <span className="capitalize text-[11px] font-mono hidden sm:inline">{theme}</span>
+            </button>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden p-2 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all"
+              aria-label="Menú de navegación"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                {mobileMenuOpen ? (
+                  <>
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </>
+                ) : (
+                  <>
+                    <line x1="4" y1="7" x2="20" y2="7" />
+                    <line x1="4" y1="12" x2="20" y2="12" />
+                    <line x1="4" y1="17" x2="20" y2="17" />
+                  </>
+                )}
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Navigation Drawer */}
+        {mobileMenuOpen && (
+          <div className="md:hidden py-3 border-t border-[var(--border-subtle)] animate-fade-in">
+            <ul className="flex flex-col gap-1">
+              {navItems.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <li key={item.href}>
                     <Link
-                        href="/"
-                        className="text-lg md:text-xl font-[family-name:var(--font-pixel)] glitch-text gradient-text tracking-wide"
+                      href={item.href}
+                      className={`block py-2 px-3 rounded-lg text-sm transition-all ${
+                        isActive
+                          ? 'bg-[var(--bg-surface)] text-[var(--text-primary)] font-semibold border-l-2 border-[var(--accent-burdeo)]'
+                          : 'text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]'
+                      }`}
+                      onClick={() => setMobileMenuOpen(false)}
                     >
-                        KITTLE
+                      {item.label}
                     </Link>
-
-                    {/* Desktop Navigation */}
-                    <ul className="hidden md:flex items-center gap-6">
-                        {navItems.map((item) => (
-                            <li key={item.href} className="relative">
-                                <Link
-                                    href={item.href}
-                                    className={`text-xs font-[family-name:var(--font-pixel)] uppercase tracking-wider transition-all duration-200 px-2 py-1 ${pathname === item.href
-                                            ? 'text-[var(--arcade-magenta)] neon-glow-pink'
-                                            : 'text-[var(--text-secondary)] hover:text-[var(--arcade-cyan)] hover:neon-glow-cyan'
-                                        }`}
-                                >
-                                    {pathname === item.href && (
-                                        <span className="absolute -left-3 text-[var(--arcade-yellow)]">▶</span>
-                                    )}
-                                    {item.label}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-
-                    {/* Mobile Menu Button */}
-                    <button
-                        className="md:hidden p-2 text-[var(--arcade-cyan)] border-2 border-[var(--arcade-cyan)] hover:bg-[var(--arcade-cyan)] hover:text-[var(--navy-900)] transition-all"
-                        aria-label="Menú"
-                        onClick={() => {
-                            const menu = document.getElementById('mobile-menu');
-                            if (menu) {
-                                menu.classList.toggle('hidden');
-                            }
-                        }}
-                    >
-                        <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="3"
-                            strokeLinecap="square"
-                            strokeLinejoin="miter"
-                        >
-                            <line x1="3" y1="6" x2="21" y2="6" />
-                            <line x1="3" y1="12" x2="21" y2="12" />
-                            <line x1="3" y1="18" x2="21" y2="18" />
-                        </svg>
-                    </button>
-                </div>
-
-                {/* Mobile Navigation */}
-                <div id="mobile-menu" className="hidden md:hidden pb-4">
-                    <ul className="flex flex-col gap-1 border-t-2 border-[var(--arcade-cyan)] pt-4">
-                        {navItems.map((item) => (
-                            <li key={item.href}>
-                                <Link
-                                    href={item.href}
-                                    className={`block py-3 px-4 text-xs font-[family-name:var(--font-pixel)] uppercase tracking-wider transition-all duration-200 border-l-4 ${pathname === item.href
-                                            ? 'text-[var(--arcade-magenta)] border-[var(--arcade-magenta)] bg-[rgba(255,0,255,0.1)]'
-                                            : 'text-[var(--text-secondary)] border-transparent hover:text-[var(--arcade-cyan)] hover:border-[var(--arcade-cyan)] hover:bg-[rgba(0,255,255,0.05)]'
-                                        }`}
-                                    onClick={() => {
-                                        const menu = document.getElementById('mobile-menu');
-                                        if (menu) {
-                                            menu.classList.add('hidden');
-                                        }
-                                    }}
-                                >
-                                    {pathname === item.href && (
-                                        <span className="mr-2 text-[var(--arcade-yellow)]">▶</span>
-                                    )}
-                                    {item.label}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    );
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
+      </div>
+    </nav>
+  );
 }

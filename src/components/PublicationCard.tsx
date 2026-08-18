@@ -1,79 +1,50 @@
 import Link from 'next/link';
 import { Publication, categoryLabels } from '@/lib/types';
-import StarRating from './StarRating';
 
 interface PublicationCardProps {
-    publication: Publication;
+  publication: Publication;
 }
 
 export default function PublicationCard({ publication }: PublicationCardProps) {
-    const formattedDate = new Date(publication.publishedAt).toLocaleDateString('es-ES', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    });
+  const formattedDate = new Date(publication.publishedAt).toLocaleDateString('es-ES', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
 
-    return (
-        <article className="card p-6 flex flex-col h-full">
-            {/* Category Badge */}
-            <div className="mb-4">
-                <span className={`badge badge-${publication.category}`}>
-                    {categoryLabels[publication.category]}
-                </span>
-            </div>
+  return (
+    <article className="indie-card indie-card-interactive p-6 flex flex-col h-full group">
+      {/* Category Badge & Date */}
+      <div className="flex items-center justify-between gap-2 mb-3">
+        <span className={`badge badge-${publication.category}`}>
+          {categoryLabels[publication.category]}
+        </span>
+        <span className="text-[11px] font-mono text-[var(--text-muted)]">
+          {formattedDate}
+        </span>
+      </div>
 
-            {/* Title */}
-            <h3 className="text-sm md:text-base font-[family-name:var(--font-pixel)] uppercase tracking-wide text-[var(--text-primary)] mb-3 line-clamp-2 leading-relaxed">
-                <Link
-                    href={`/publicacion/${publication.slug}`}
-                    className="hover:text-[var(--arcade-cyan)] hover:neon-glow-cyan transition-all duration-200"
-                >
-                    {publication.title}
-                </Link>
-            </h3>
+      {/* Title */}
+      <h3 className="text-lg font-serif font-bold text-[var(--text-primary)] mb-2.5 leading-snug group-hover:text-[var(--accent-burdeo)] transition-colors">
+        <Link href={`/publicacion/${publication.slug}`} className="line-clamp-2">
+          {publication.title}
+        </Link>
+      </h3>
 
-            {/* Metadata */}
-            <div className="flex items-center gap-4 text-xs text-[var(--text-muted)] mb-4">
-                <span>{formattedDate}</span>
-                <span className="text-[var(--arcade-cyan)]">•</span>
-                <span>{publication.readingTime} min lectura</span>
-            </div>
+      {/* Excerpt */}
+      <p className="text-xs md:text-sm text-[var(--text-secondary)] font-serif leading-relaxed mb-5 flex-grow line-clamp-3">
+        {publication.excerpt}
+      </p>
 
-            {/* Excerpt */}
-            <p className="text-[var(--text-secondary)] text-sm leading-relaxed mb-4 flex-grow line-clamp-3">
-                {publication.excerpt}
-            </p>
-
-            {/* Rating and Author */}
-            <div className="mt-auto pt-4 border-t border-[var(--navy-700)]">
-                <div className="flex items-center justify-between flex-wrap gap-2">
-                    <StarRating publicationId={publication.id} readonly size="sm" showCount={true} />
-                    <span className="text-xs text-[var(--text-muted)]">
-                        Por <span className="text-[var(--arcade-cyan)]">{publication.author}</span>
-                    </span>
-                </div>
-            </div>
-
-            {/* Read More Link */}
-            <Link
-                href={`/publicacion/${publication.slug}`}
-                className="mt-4 inline-flex items-center text-xs font-[family-name:var(--font-pixel)] uppercase tracking-wide text-[var(--arcade-magenta)] hover:text-[var(--arcade-cyan)] transition-all duration-200 group"
-            >
-                <span className="mr-2 text-[var(--arcade-yellow)] opacity-0 group-hover:opacity-100 transition-opacity">▶</span>
-                Leer más
-                <svg
-                    className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="square"
-                    strokeLinejoin="miter"
-                >
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                    <polyline points="12 5 19 12 12 19" />
-                </svg>
-            </Link>
-        </article>
-    );
+      {/* Card Footer: Reading time & author */}
+      <div className="mt-auto pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs text-[var(--text-muted)]">
+        <span className="truncate">
+          Por <strong className="font-medium text-[var(--text-secondary)]">{publication.author}</strong>
+        </span>
+        <span className="font-mono text-[11px] flex-shrink-0">
+          {publication.readingTime} min
+        </span>
+      </div>
+    </article>
+  );
 }
