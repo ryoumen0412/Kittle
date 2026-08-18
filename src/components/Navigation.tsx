@@ -19,16 +19,15 @@ export default function Navigation() {
   const { theme, setTheme, isZenMode } = useReaderPreferences();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // If in Zen mode, hide navbar completely for immersion
   if (isZenMode) {
     return null;
   }
 
-  const themeIcons: Record<SiteTheme, string> = {
-    light: '☀️',
-    dark: '🌙',
-    sepia: '🍷',
-    cactus: '🌵',
+  const themeLabels: Record<SiteTheme, { icon: string; name: string }> = {
+    light: { icon: '☀️', name: 'Claro' },
+    dark: { icon: '🌙', name: 'Oscuro' },
+    sepia: { icon: '🍷', name: 'Burdeo' },
+    cactus: { icon: '🌵', name: 'Cactus' },
   };
 
   const nextTheme: Record<SiteTheme, SiteTheme> = {
@@ -39,7 +38,7 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-[var(--border-subtle)] bg-[var(--bg-base)]/85 backdrop-blur-md transition-colors">
+    <nav className="sticky top-0 z-50 border-b border-[var(--border-subtle)] bg-[var(--bg-base)]/90 backdrop-blur-md transition-colors">
       <div className="container">
         <div className="flex items-center justify-between h-16 md:h-18">
           {/* Logo / Brand */}
@@ -47,24 +46,24 @@ export default function Navigation() {
             href="/"
             className="flex items-center gap-2 group text-decoration-none"
           >
-            <span className="font-serif font-bold text-xl md:text-2xl tracking-tight text-[var(--text-primary)] group-hover:text-[var(--accent-burdeo)] transition-colors">
+            <span className="font-serif font-bold text-2xl tracking-tight text-[var(--text-primary)] group-hover:text-[var(--accent-burdeo)] transition-colors">
               Kittle
             </span>
-            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-burdeo)] inline-block mt-1" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-burdeo)] inline-block mt-0.5" />
           </Link>
 
           {/* Desktop Navigation Links */}
-          <ul className="hidden md:flex items-center gap-1 lg:gap-2">
+          <ul className="hidden md:flex items-center gap-6 lg:gap-8">
             {navItems.map((item) => {
               const isActive = pathname === item.href;
               return (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className={`px-3 py-1.5 rounded-md text-xs font-medium tracking-wide transition-all ${
+                    className={`text-sm tracking-normal transition-all py-1 px-1 relative ${
                       isActive
-                        ? 'text-[var(--text-primary)] bg-[var(--bg-surface)] font-semibold'
-                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)]'
+                        ? 'text-[var(--text-primary)] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-[var(--accent-burdeo)] after:rounded-full'
+                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-normal'
                     }`}
                   >
                     {item.label}
@@ -74,17 +73,17 @@ export default function Navigation() {
             })}
           </ul>
 
-          {/* Right Actions: Theme Toggle & Admin/Mobile */}
-          <div className="flex items-center gap-2">
-            {/* Theme Toggle Cycle */}
+          {/* Right Actions: Theme Selector & Mobile Toggle */}
+          <div className="flex items-center gap-3">
+            {/* Theme Toggle Button */}
             <button
               onClick={() => setTheme(nextTheme[theme])}
-              className="p-2 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:bg-[var(--bg-elevated)] text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all flex items-center gap-1.5"
-              title={`Tema actual: ${theme}. Haz clic para cambiar.`}
-              aria-label="Cambiar tema"
+              className="px-3 py-1.5 rounded-full border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:bg-[var(--bg-elevated)] hover:border-[var(--border-strong)] text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all flex items-center gap-2 cursor-pointer shadow-xs"
+              title={`Ambiente actual: ${themeLabels[theme].name}. Clic para alternar.`}
+              aria-label="Cambiar tema visual"
             >
-              <span className="text-sm">{themeIcons[theme]}</span>
-              <span className="capitalize text-[11px] font-mono hidden sm:inline">{theme}</span>
+              <span className="text-sm leading-none">{themeLabels[theme].icon}</span>
+              <span className="font-medium">{themeLabels[theme].name}</span>
             </button>
 
             {/* Mobile Menu Button */}
@@ -122,15 +121,15 @@ export default function Navigation() {
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="md:hidden py-3 border-t border-[var(--border-subtle)] animate-fade-in">
-            <ul className="flex flex-col gap-1">
+          <div className="md:hidden py-4 border-t border-[var(--border-subtle)] animate-fade-in">
+            <ul className="flex flex-col gap-1.5">
               {navItems.map((item) => {
                 const isActive = pathname === item.href;
                 return (
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className={`block py-2 px-3 rounded-lg text-sm transition-all ${
+                      className={`block py-2.5 px-3.5 rounded-lg text-sm transition-all ${
                         isActive
                           ? 'bg-[var(--bg-surface)] text-[var(--text-primary)] font-semibold border-l-2 border-[var(--accent-burdeo)]'
                           : 'text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]'

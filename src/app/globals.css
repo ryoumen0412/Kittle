@@ -1,37 +1,43 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: var(--font-serif), "Newsreader", Georgia, Cambria, "Times New Roman", serif;
+  --font-mono: var(--font-mono), "JetBrains Mono", Menlo, Consolas, monospace;
+}
+
 :root {
   /* ===== MODERN INDIE DESIGN SYSTEM ===== */
   
-  /* Base Palette - Light (Parchment & Charcoal) */
-  --bg-base: #FAF8F5;
-  --bg-surface: #F3EFE9;
-  --bg-elevated: #ECE7DF;
-  --bg-muted: #E4DDD2;
-  --border-subtle: #E2DBD0;
-  --border-strong: #C8BFB2;
+  /* Base Palette - Light (Warm Parchment & Rich Charcoal) */
+  --bg-base: #F9F7F2;
+  --bg-surface: #FFFFFF;
+  --bg-elevated: #F1ECE1;
+  --bg-muted: #E8E2D5;
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.16);
 
-  --text-primary: #1C1917;
-  --text-secondary: #57534E;
-  --text-muted: #88827A;
-  --text-inverse: #FAF8F5;
+  --text-primary: #181716;
+  --text-secondary: #54514B;
+  --text-muted: #827E76;
+  --text-inverse: #FFFFFF;
 
   /* Muted Indie Accent Tones */
-  --accent-burdeo: #7A2838;
-  --accent-burdeo-subtle: rgba(122, 40, 56, 0.08);
-  --accent-burdeo-border: rgba(122, 40, 56, 0.25);
+  --accent-burdeo: #8B263E;
+  --accent-burdeo-subtle: rgba(139, 38, 62, 0.07);
+  --accent-burdeo-border: rgba(139, 38, 62, 0.22);
 
-  --accent-cactus: #2F563D;
-  --accent-cactus-subtle: rgba(47, 86, 61, 0.08);
-  --accent-cactus-border: rgba(47, 86, 61, 0.25);
+  --accent-cactus: #2E5B3E;
+  --accent-cactus-subtle: rgba(46, 91, 62, 0.07);
+  --accent-cactus-border: rgba(46, 91, 62, 0.22);
 
-  --accent-navy: #1E3A5F;
-  --accent-navy-subtle: rgba(30, 58, 95, 0.08);
-  --accent-navy-border: rgba(30, 58, 95, 0.25);
+  --accent-navy: #1F3F68;
+  --accent-navy-subtle: rgba(31, 63, 104, 0.07);
+  --accent-navy-border: rgba(31, 63, 104, 0.22);
 
-  --accent-ochre: #8E5C23;
-  --accent-ochre-subtle: rgba(142, 92, 35, 0.08);
-  --accent-ochre-border: rgba(142, 92, 35, 0.25);
+  --accent-ochre: #966127;
+  --accent-ochre-subtle: rgba(150, 97, 39, 0.07);
+  --accent-ochre-border: rgba(150, 97, 39, 0.22);
 
   /* Category colors */
   --cat-historia: var(--accent-burdeo);
@@ -50,112 +56,107 @@
   --cat-blog-bg: var(--accent-ochre-subtle);
   --cat-blog-border: var(--accent-ochre-border);
 
-  /* Radius & Shadows */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-
-  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
-  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
-  --shadow-float: 0 12px 32px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.07), 0 2px 6px rgba(0, 0, 0, 0.03);
 }
 
-/* Dark Theme */
+/* Dark Theme (Graphite & Slate) */
 [data-theme="dark"] {
-  --bg-base: #111215;
-  --bg-surface: #17191E;
-  --bg-elevated: #20232A;
-  --bg-muted: #292D36;
-  --border-subtle: #262933;
-  --border-strong: #383D4C;
+  --bg-base: #0E1013;
+  --bg-surface: #15181E;
+  --bg-elevated: #1D212A;
+  --bg-muted: #272C37;
+  --border-subtle: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.18);
 
-  --text-primary: #EDEFE8;
-  --text-secondary: #A2A9B6;
-  --text-muted: #6B7280;
-  --text-inverse: #111215;
+  --text-primary: #F0F2F5;
+  --text-secondary: #A0A7B5;
+  --text-muted: #6B7382;
+  --text-inverse: #0E1013;
 
-  --accent-burdeo: #C85C6E;
-  --accent-burdeo-subtle: rgba(200, 92, 110, 0.12);
-  --accent-burdeo-border: rgba(200, 92, 110, 0.3);
+  --accent-burdeo: #D96B7F;
+  --accent-burdeo-subtle: rgba(217, 107, 127, 0.12);
+  --accent-burdeo-border: rgba(217, 107, 127, 0.3);
 
-  --accent-cactus: #609A75;
-  --accent-cactus-subtle: rgba(96, 154, 117, 0.12);
-  --accent-cactus-border: rgba(96, 154, 117, 0.3);
+  --accent-cactus: #6EAB85;
+  --accent-cactus-subtle: rgba(110, 171, 133, 0.12);
+  --accent-cactus-border: rgba(110, 171, 133, 0.3);
 
-  --accent-navy: #5E89BE;
-  --accent-navy-subtle: rgba(94, 137, 190, 0.12);
-  --accent-navy-border: rgba(94, 137, 190, 0.3);
+  --accent-navy: #6C9AD4;
+  --accent-navy-subtle: rgba(108, 154, 212, 0.12);
+  --accent-navy-border: rgba(108, 154, 212, 0.3);
 
-  --accent-ochre: #D49B55;
-  --accent-ochre-subtle: rgba(212, 155, 85, 0.12);
-  --accent-ochre-border: rgba(212, 155, 85, 0.3);
+  --accent-ochre: #E0A65F;
+  --accent-ochre-subtle: rgba(224, 166, 95, 0.12);
+  --accent-ochre-border: rgba(224, 166, 95, 0.3);
 
-  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-float: 0 12px 32px rgba(0, 0, 0, 0.6);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Sepia / Burdeo Warm Theme */
 [data-theme="sepia"] {
-  --bg-base: #1C1518;
-  --bg-surface: #251D21;
-  --bg-elevated: #30262B;
-  --bg-muted: #3D3137;
-  --border-subtle: #382B32;
-  --border-strong: #54414B;
+  --bg-base: #1A1417;
+  --bg-surface: #241C20;
+  --bg-elevated: #2F242A;
+  --bg-muted: #3D2E37;
+  --border-subtle: rgba(230, 180, 195, 0.12);
+  --border-strong: rgba(230, 180, 195, 0.22);
 
-  --text-primary: #F7EAEE;
-  --text-secondary: #CBB4BC;
-  --text-muted: #8E7780;
-  --text-inverse: #1C1518;
+  --text-primary: #F9ECEF;
+  --text-secondary: #CDB6BD;
+  --text-muted: #8E7A82;
+  --text-inverse: #1A1417;
 
-  --accent-burdeo: #E57386;
-  --accent-burdeo-subtle: rgba(229, 115, 134, 0.15);
-  --accent-burdeo-border: rgba(229, 115, 134, 0.35);
+  --accent-burdeo: #EB7C8F;
+  --accent-burdeo-subtle: rgba(235, 124, 143, 0.14);
+  --accent-burdeo-border: rgba(235, 124, 143, 0.32);
 
-  --accent-cactus: #78B08F;
-  --accent-cactus-subtle: rgba(120, 176, 143, 0.15);
-  --accent-cactus-border: rgba(120, 176, 143, 0.35);
+  --accent-cactus: #7CBA94;
+  --accent-cactus-subtle: rgba(124, 186, 148, 0.14);
+  --accent-cactus-border: rgba(124, 186, 148, 0.32);
 
-  --accent-navy: #7DA6D9;
-  --accent-navy-subtle: rgba(125, 166, 217, 0.15);
-  --accent-navy-border: rgba(125, 166, 217, 0.35);
+  --accent-navy: #82AFE6;
+  --accent-navy-subtle: rgba(130, 175, 230, 0.14);
+  --accent-navy-border: rgba(130, 175, 230, 0.32);
 
-  --accent-ochre: #E0AB6A;
-  --accent-ochre-subtle: rgba(224, 171, 106, 0.15);
-  --accent-ochre-border: rgba(224, 171, 106, 0.35);
+  --accent-ochre: #E5B373;
+  --accent-ochre-subtle: rgba(229, 179, 115, 0.14);
+  --accent-ochre-border: rgba(229, 179, 115, 0.32);
 }
 
 /* Cactus / Deep Forest Theme */
 [data-theme="cactus"] {
   --bg-base: #0E1612;
-  --bg-surface: #15211B;
-  --bg-elevated: #1D2D25;
-  --bg-muted: #273C32;
-  --border-subtle: #24382E;
-  --border-strong: #365345;
+  --bg-surface: #15201A;
+  --bg-elevated: #1D2B23;
+  --bg-muted: #27392F;
+  --border-subtle: rgba(180, 225, 200, 0.12);
+  --border-strong: rgba(180, 225, 200, 0.22);
 
-  --text-primary: #EBF4EE;
-  --text-secondary: #A3BEAF;
-  --text-muted: #678474;
+  --text-primary: #EEF6F1;
+  --text-secondary: #ADC2B6;
+  --text-muted: #6E887A;
   --text-inverse: #0E1612;
 
-  --accent-cactus: #6EBA8B;
-  --accent-cactus-subtle: rgba(110, 186, 139, 0.15);
-  --accent-cactus-border: rgba(110, 186, 139, 0.35);
+  --accent-cactus: #73C292;
+  --accent-cactus-subtle: rgba(115, 194, 146, 0.14);
+  --accent-cactus-border: rgba(115, 194, 146, 0.32);
 
-  --accent-burdeo: #DA6D81;
-  --accent-burdeo-subtle: rgba(218, 109, 129, 0.15);
-  --accent-burdeo-border: rgba(218, 109, 129, 0.35);
+  --accent-burdeo: #E07387;
+  --accent-burdeo-subtle: rgba(224, 115, 135, 0.14);
+  --accent-burdeo-border: rgba(224, 115, 135, 0.32);
 
-  --accent-navy: #689ACD;
-  --accent-navy-subtle: rgba(104, 154, 205, 0.15);
-  --accent-navy-border: rgba(104, 154, 205, 0.35);
+  --accent-navy: #72A4DC;
+  --accent-navy-subtle: rgba(114, 164, 220, 0.14);
+  --accent-navy-border: rgba(114, 164, 220, 0.32);
 
-  --accent-ochre: #D69E58;
-  --accent-ochre-subtle: rgba(214, 158, 88, 0.15);
-  --accent-ochre-border: rgba(214, 158, 88, 0.35);
+  --accent-ochre: #DDA663;
+  --accent-ochre-subtle: rgba(221, 166, 99, 0.14);
+  --accent-ochre-border: rgba(221, 166, 99, 0.32);
 }
 
 * {
@@ -172,17 +173,17 @@ html {
 body {
   background-color: var(--bg-base);
   color: var(--text-primary);
-  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-sans);
   min-height: 100vh;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Layout Utilities */
+/* Layout Container */
 .container {
   width: 100%;
-  max-width: 1080px;
+  max-width: 1120px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1.25rem;
@@ -191,58 +192,45 @@ body {
 
 @media (min-width: 768px) {
   .container {
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 2.25rem;
+    padding-right: 2.25rem;
   }
 }
 
-/* Typography Helpers */
-.font-serif {
-  font-family: var(--font-serif), Georgia, Cambria, "Times New Roman", serif;
-}
-
-.font-sans {
-  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-.font-mono {
-  font-family: var(--font-mono), Menlo, Monaco, Consolas, monospace;
-}
-
-/* UI Elements: Cards */
+/* Cards */
 .indie-card {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-subtle);
-  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 1rem;
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 .indie-card:hover {
   border-color: var(--border-strong);
-  box-shadow: var(--shadow-card);
 }
 
 .indie-card-interactive:hover {
   transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
 }
 
-/* Badges */
+/* Category Badges */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
   font-family: var(--font-sans);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.03em;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   padding: 0.25rem 0.65rem;
   border-radius: 9999px;
   border: 1px solid var(--border-subtle);
   background: var(--bg-elevated);
   color: var(--text-secondary);
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
 }
 
 .badge-historia {
@@ -269,7 +257,7 @@ body {
   color: var(--cat-blog);
 }
 
-/* Buttons */
+/* Primary and Secondary Buttons */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -278,18 +266,19 @@ body {
   font-family: var(--font-sans);
   font-size: 0.875rem;
   font-weight: 500;
-  padding: 0.625rem 1.25rem;
-  border-radius: var(--radius-md);
+  padding: 0.65rem 1.35rem;
+  border-radius: 0.5rem;
   background-color: var(--text-primary);
   color: var(--bg-base);
   border: 1px solid var(--text-primary);
   cursor: pointer;
   transition: all 0.15s ease;
   text-decoration: none;
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-primary:hover {
-  opacity: 0.9;
+  opacity: 0.92;
   transform: translateY(-1px);
 }
 
@@ -301,11 +290,11 @@ body {
   font-family: var(--font-sans);
   font-size: 0.875rem;
   font-weight: 500;
-  padding: 0.625rem 1.25rem;
-  border-radius: var(--radius-md);
+  padding: 0.65rem 1.35rem;
+  border-radius: 0.5rem;
   background-color: var(--bg-surface);
   color: var(--text-primary);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-strong);
   cursor: pointer;
   transition: all 0.15s ease;
   text-decoration: none;
@@ -313,18 +302,18 @@ body {
 
 .btn-secondary:hover {
   background-color: var(--bg-elevated);
-  border-color: var(--border-strong);
+  border-color: var(--text-secondary);
 }
 
 .btn-ghost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
+  gap: 0.4rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  padding: 0.5rem 0.75rem;
-  border-radius: var(--radius-md);
+  padding: 0.45rem 0.75rem;
+  border-radius: 0.4rem;
   background: transparent;
   color: var(--text-secondary);
   border: 1px solid transparent;
@@ -337,18 +326,18 @@ body {
   background-color: var(--bg-elevated);
 }
 
-/* Reader Prose Styles */
+/* Reader Typography Prose */
 .reader-prose {
   color: var(--text-primary);
   font-family: var(--reader-font, var(--font-serif));
-  font-size: var(--reader-font-size, 1.125rem);
+  font-size: var(--reader-font-size, 1.15rem);
   line-height: var(--reader-line-height, 1.85);
   text-align: var(--reader-align, left);
   transition: font-size 0.2s ease, line-height 0.2s ease;
 }
 
 .reader-prose p {
-  margin-bottom: 1.6em;
+  margin-bottom: 1.5em;
   word-break: break-word;
 }
 
@@ -364,13 +353,13 @@ body {
   font-weight: 600;
   color: var(--text-primary);
   margin-top: 2em;
-  margin-bottom: 0.8em;
+  margin-bottom: 0.75em;
   line-height: 1.3;
 }
 
-.reader-prose h1 { font-size: 1.8em; }
-.reader-prose h2 { font-size: 1.4em; }
-.reader-prose h3 { font-size: 1.2em; }
+.reader-prose h1 { font-size: 1.85em; }
+.reader-prose h2 { font-size: 1.45em; }
+.reader-prose h3 { font-size: 1.25em; }
 
 .reader-prose blockquote {
   font-style: italic;
@@ -398,33 +387,14 @@ body {
   margin-bottom: 0.5em;
 }
 
-.reader-prose pre {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: 1rem;
-  overflow-x: auto;
-  font-family: var(--font-mono);
-  font-size: 0.875em;
-  margin: 1.5em 0;
-}
-
-.reader-prose code {
-  font-family: var(--font-mono);
-  background: var(--bg-elevated);
-  padding: 0.15em 0.4em;
-  border-radius: 4px;
-  font-size: 0.9em;
-}
-
-/* TipTap Editor Styling */
+/* TipTap Editor Prose */
 .tiptap-editor .tiptap {
   outline: none;
   min-height: 380px;
-  padding: 1.25rem;
+  padding: 1.5rem;
   font-family: var(--font-serif);
-  font-size: 1.125rem;
-  line-height: 1.8;
+  font-size: 1.15rem;
+  line-height: 1.85;
   color: var(--text-primary);
 }
 
@@ -441,21 +411,21 @@ body {
 }
 
 .tiptap-editor .tiptap h1 {
-  font-size: 1.75em;
+  font-size: 1.8em;
   font-weight: 600;
   margin-top: 1.5em;
   margin-bottom: 0.6em;
 }
 
 .tiptap-editor .tiptap h2 {
-  font-size: 1.35em;
+  font-size: 1.4em;
   font-weight: 600;
   margin-top: 1.4em;
   margin-bottom: 0.5em;
 }
 
 .tiptap-editor .tiptap h3 {
-  font-size: 1.15em;
+  font-size: 1.2em;
   font-weight: 600;
   margin-top: 1.2em;
   margin-bottom: 0.4em;
@@ -479,11 +449,11 @@ body {
   margin: 1em 0;
 }
 
-/* Animations */
+/* Subtle animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(4px);
   }
   to {
     opacity: 1;
@@ -492,7 +462,7 @@ body {
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.3s ease forwards;
+  animation: fadeIn 0.25s ease forwards;
 }
 
 /* Custom Scrollbar */

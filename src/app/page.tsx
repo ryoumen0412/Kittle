@@ -23,23 +23,23 @@ export default function Home() {
   return (
     <div className="animate-fade-in">
       {/* Hero Section */}
-      <section className="py-16 md:py-24 lg:py-28 border-b border-[var(--border-subtle)]">
+      <section className="py-20 md:py-28 lg:py-32 border-b border-[var(--border-subtle)]">
         <div className="container max-w-3xl text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-xs text-[var(--text-secondary)] mb-6 font-mono">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-xs text-[var(--text-secondary)] mb-8 shadow-xs">
             <span className="w-2 h-2 rounded-full bg-[var(--accent-burdeo)]" />
-            <span>Biblioteca y Bitácora Literaria</span>
+            <span className="font-medium tracking-wide">Biblioteca & Bitácora Literaria</span>
           </div>
 
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-serif font-bold text-[var(--text-primary)] mb-6 leading-[1.15] tracking-tight">
-            Escribir con pausa. <br className="hidden sm:inline" />
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-[var(--text-primary)] mb-6 leading-[1.12] tracking-tight">
+            Escribir con pausa. <br />
             <span className="italic font-normal text-[var(--text-secondary)]">Leer sin algoritmos.</span>
           </h1>
 
-          <p className="text-base md:text-lg text-[var(--text-secondary)] font-serif max-w-xl mx-auto mb-8 leading-relaxed">
-            Historias extensas, cuentos breves y reflexiones dispersas. Un espacio digital diseñado exclusivamente para el deleite de la lectura.
+          <p className="text-base sm:text-lg text-[var(--text-secondary)] font-serif max-w-xl mx-auto mb-10 leading-relaxed">
+            Historias extensas, cuentos breves y reflexiones dispersas. Un espacio digital concebido para la lectura sosegada y el texto cuidado.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-4">
             <Link href="/historias" className="btn-primary">
               Explorar historias →
             </Link>
@@ -50,30 +50,40 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Read Section (If available) */}
+      {/* Featured Read Section */}
       {featured && !isLoading && (
-        <section className="py-12 md:py-16 border-b border-[var(--border-subtle)] bg-[var(--bg-surface)]/40">
+        <section className="py-16 md:py-20 border-b border-[var(--border-subtle)] bg-[var(--bg-surface)]/50">
           <div className="container">
-            <div className="flex items-center justify-between mb-6">
-              <span className="text-xs uppercase tracking-wider font-semibold text-[var(--text-muted)] font-mono">
-                Lectura Destacada
-              </span>
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-burdeo)]" />
+                <span className="text-xs uppercase tracking-wider font-semibold text-[var(--text-secondary)]">
+                  Lectura Destacada
+                </span>
+              </div>
               <span className={`badge badge-${featured.category}`}>
                 {featured.category}
               </span>
             </div>
 
-            <div className="indie-card p-6 md:p-10 bg-[var(--bg-surface)] border-[var(--border-strong)]">
+            <div className="indie-card p-8 md:p-12 bg-[var(--bg-surface)] border-[var(--border-strong)] rounded-2xl relative overflow-hidden">
+              {/* Subtle accent bar at top */}
+              <div className="absolute top-0 left-0 right-0 h-1 bg-[var(--accent-burdeo)]" />
+
               <div className="max-w-3xl">
-                <span className="text-xs text-[var(--text-muted)] font-mono block mb-2">
-                  {new Date(featured.publishedAt).toLocaleDateString('es-ES', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}{' '}
-                  • {featured.readingTime} min de lectura
-                </span>
-                <h2 className="text-2xl md:text-3xl font-serif font-bold text-[var(--text-primary)] mb-3">
+                <div className="flex items-center gap-3 text-xs text-[var(--text-muted)] mb-3">
+                  <span>
+                    {new Date(featured.publishedAt).toLocaleDateString('es-ES', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </span>
+                  <span>•</span>
+                  <span>{featured.readingTime} min de lectura</span>
+                </div>
+
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-[var(--text-primary)] mb-4 leading-snug">
                   <Link
                     href={`/publicacion/${featured.slug}`}
                     className="hover:text-[var(--accent-burdeo)] transition-colors"
@@ -81,14 +91,16 @@ export default function Home() {
                     {featured.title}
                   </Link>
                 </h2>
-                <p className="text-sm md:text-base text-[var(--text-secondary)] font-serif leading-relaxed mb-6">
+
+                <p className="text-base sm:text-lg text-[var(--text-secondary)] font-serif leading-relaxed mb-8">
                   {featured.excerpt}
                 </p>
-                <div className="flex items-center justify-between pt-4 border-t border-[var(--border-subtle)]">
-                  <span className="text-xs text-[var(--text-muted)]">
-                    Por <strong className="text-[var(--text-primary)]">{featured.author}</strong>
+
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 border-t border-[var(--border-subtle)]">
+                  <span className="text-sm text-[var(--text-muted)]">
+                    Escrito por <strong className="text-[var(--text-primary)] font-medium">{featured.author}</strong>
                   </span>
-                  <Link href={`/publicacion/${featured.slug}`} className="btn-primary text-xs py-1.5 px-3">
+                  <Link href={`/publicacion/${featured.slug}`} className="btn-primary">
                     Comenzar a leer →
                   </Link>
                 </div>
@@ -99,35 +111,35 @@ export default function Home() {
       )}
 
       {/* Categories Bento Grid */}
-      <section className="py-14 md:py-20 border-b border-[var(--border-subtle)]">
+      <section className="py-16 md:py-24 border-b border-[var(--border-subtle)]">
         <div className="container">
-          <div className="mb-10 text-center md:text-left">
-            <span className="text-xs uppercase tracking-wider font-semibold text-[var(--text-muted)] font-mono block mb-1">
+          <div className="mb-12">
+            <span className="text-xs uppercase tracking-wider font-semibold text-[var(--text-muted)] block mb-2">
               Colecciones
             </span>
-            <h2 className="text-2xl md:text-3xl font-serif font-bold text-[var(--text-primary)]">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-[var(--text-primary)]">
               Explorar por formato
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Historias - Burdeo */}
             <Link
               href="/historias"
-              className="indie-card indie-card-interactive p-6 flex flex-col justify-between group hover:border-[var(--cat-historia)]"
+              className="indie-card indie-card-interactive p-7 flex flex-col justify-between group rounded-2xl border-t-4 border-t-[var(--accent-burdeo)]"
             >
               <div>
-                <div className="w-8 h-8 rounded-lg bg-[var(--cat-historia-bg)] border border-[var(--cat-historia-border)] flex items-center justify-center text-[var(--cat-historia)] mb-4 text-sm font-serif font-bold">
+                <div className="w-10 h-10 rounded-xl bg-[var(--cat-historia-bg)] border border-[var(--cat-historia-border)] flex items-center justify-center text-[var(--cat-historia)] mb-5 text-base font-serif font-bold">
                   H
                 </div>
-                <h3 className="text-lg font-serif font-bold text-[var(--text-primary)] group-hover:text-[var(--cat-historia)] transition-colors mb-1.5">
+                <h3 className="text-xl font-serif font-bold text-[var(--text-primary)] group-hover:text-[var(--cat-historia)] transition-colors mb-2">
                   Historias
                 </h3>
-                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+                <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
                   Relatos estructurados, dramas y narraciones de largo aliento.
                 </p>
               </div>
-              <span className="mt-6 text-xs text-[var(--cat-historia)] font-medium inline-flex items-center gap-1">
+              <span className="mt-8 text-xs font-medium text-[var(--cat-historia)] inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                 Ver historias →
               </span>
             </Link>
@@ -135,20 +147,20 @@ export default function Home() {
             {/* Cuentos - Cactus */}
             <Link
               href="/cuentos"
-              className="indie-card indie-card-interactive p-6 flex flex-col justify-between group hover:border-[var(--cat-cuento)]"
+              className="indie-card indie-card-interactive p-7 flex flex-col justify-between group rounded-2xl border-t-4 border-t-[var(--accent-cactus)]"
             >
               <div>
-                <div className="w-8 h-8 rounded-lg bg-[var(--cat-cuento-bg)] border border-[var(--cat-cuento-border)] flex items-center justify-center text-[var(--cat-cuento)] mb-4 text-sm font-serif font-bold">
+                <div className="w-10 h-10 rounded-xl bg-[var(--cat-cuento-bg)] border border-[var(--cat-cuento-border)] flex items-center justify-center text-[var(--cat-cuento)] mb-5 text-base font-serif font-bold">
                   C
                 </div>
-                <h3 className="text-lg font-serif font-bold text-[var(--text-primary)] group-hover:text-[var(--cat-cuento)] transition-colors mb-1.5">
+                <h3 className="text-xl font-serif font-bold text-[var(--text-primary)] group-hover:text-[var(--cat-cuento)] transition-colors mb-2">
                   Cuentos
                 </h3>
-                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                  Ficciones breves, estampas e instantes capturados.
+                <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
+                  Ficciones breves, estampas e instantes capturados para leer en minutos.
                 </p>
               </div>
-              <span className="mt-6 text-xs text-[var(--cat-cuento)] font-medium inline-flex items-center gap-1">
+              <span className="mt-8 text-xs font-medium text-[var(--cat-cuento)] inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                 Ver cuentos →
               </span>
             </Link>
@@ -156,20 +168,20 @@ export default function Home() {
             {/* Novelas - Navy */}
             <Link
               href="/novelas"
-              className="indie-card indie-card-interactive p-6 flex flex-col justify-between group hover:border-[var(--cat-novela)]"
+              className="indie-card indie-card-interactive p-7 flex flex-col justify-between group rounded-2xl border-t-4 border-t-[var(--accent-navy)]"
             >
               <div>
-                <div className="w-8 h-8 rounded-lg bg-[var(--cat-novela-bg)] border border-[var(--cat-novela-border)] flex items-center justify-center text-[var(--cat-novela)] mb-4 text-sm font-serif font-bold">
+                <div className="w-10 h-10 rounded-xl bg-[var(--cat-novela-bg)] border border-[var(--cat-novela-border)] flex items-center justify-center text-[var(--cat-novela)] mb-5 text-base font-serif font-bold">
                   N
                 </div>
-                <h3 className="text-lg font-serif font-bold text-[var(--text-primary)] group-hover:text-[var(--cat-novela)] transition-colors mb-1.5">
+                <h3 className="text-xl font-serif font-bold text-[var(--text-primary)] group-hover:text-[var(--cat-novela)] transition-colors mb-2">
                   Novelas
                 </h3>
-                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                  Obras mayores por entregas o capítulos continuos.
+                <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
+                  Obras mayores por entregas o manuscritos por capítulos continuos.
                 </p>
               </div>
-              <span className="mt-6 text-xs text-[var(--cat-novela)] font-medium inline-flex items-center gap-1">
+              <span className="mt-8 text-xs font-medium text-[var(--cat-novela)] inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                 Ver novelas →
               </span>
             </Link>
@@ -177,20 +189,20 @@ export default function Home() {
             {/* Blog - Ochre */}
             <Link
               href="/blog"
-              className="indie-card indie-card-interactive p-6 flex flex-col justify-between group hover:border-[var(--cat-blog)]"
+              className="indie-card indie-card-interactive p-7 flex flex-col justify-between group rounded-2xl border-t-4 border-t-[var(--accent-ochre)]"
             >
               <div>
-                <div className="w-8 h-8 rounded-lg bg-[var(--cat-blog-bg)] border border-[var(--cat-blog-border)] flex items-center justify-center text-[var(--cat-blog)] mb-4 text-sm font-serif font-bold">
+                <div className="w-10 h-10 rounded-xl bg-[var(--cat-blog-bg)] border border-[var(--cat-blog-border)] flex items-center justify-center text-[var(--cat-blog)] mb-5 text-base font-serif font-bold">
                   B
                 </div>
-                <h3 className="text-lg font-serif font-bold text-[var(--text-primary)] group-hover:text-[var(--cat-blog)] transition-colors mb-1.5">
+                <h3 className="text-xl font-serif font-bold text-[var(--text-primary)] group-hover:text-[var(--cat-blog)] transition-colors mb-2">
                   Diario & Blog
                 </h3>
-                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                  Apuntes sobre escritura, notas al margen y divagaciones.
+                <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
+                  Apuntes sobre escritura, notas al margen y divagaciones de paso.
                 </p>
               </div>
-              <span className="mt-6 text-xs text-[var(--cat-blog)] font-medium inline-flex items-center gap-1">
+              <span className="mt-8 text-xs font-medium text-[var(--cat-blog)] inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                 Ver entradas →
               </span>
             </Link>
@@ -199,39 +211,39 @@ export default function Home() {
       </section>
 
       {/* Recent Works Grid */}
-      <section className="py-14 md:py-20">
+      <section className="py-16 md:py-24">
         <div className="container">
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center justify-between mb-10">
             <div>
-              <span className="text-xs uppercase tracking-wider font-semibold text-[var(--text-muted)] font-mono block mb-1">
-                Índice
+              <span className="text-xs uppercase tracking-wider font-semibold text-[var(--text-muted)] block mb-1">
+                Catálogo
               </span>
-              <h2 className="text-2xl md:text-3xl font-serif font-bold text-[var(--text-primary)]">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-[var(--text-primary)]">
                 Últimas publicaciones
               </h2>
             </div>
             <Link
               href="/historias"
-              className="text-xs text-[var(--text-secondary)] hover:text-[var(--accent-burdeo)] transition-colors font-mono hidden sm:inline-flex items-center gap-1"
+              className="text-xs sm:text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--accent-burdeo)] transition-colors hidden sm:inline-flex items-center gap-1.5"
             >
               Ver catálogo completo →
             </Link>
           </div>
 
           {isLoading ? (
-            <div className="text-center py-16 text-xs text-[var(--text-muted)] font-mono">
+            <div className="text-center py-20 text-sm text-[var(--text-muted)] font-serif italic">
               Cargando obras...
             </div>
           ) : (
             <PublicationGrid
               publications={recents.length > 0 ? recents : publications}
-              emptyMessage="Aún no hay obras publicadas."
+              emptyMessage="Aún no hay obras publicadas en el catálogo."
             />
           )}
 
-          <div className="mt-10 text-center sm:hidden">
+          <div className="mt-12 text-center sm:hidden">
             <Link href="/historias" className="btn-secondary w-full">
-              Ver catálogo completo
+              Ver catálogo completo →
             </Link>
           </div>
         </div>
